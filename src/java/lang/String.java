@@ -110,6 +110,8 @@ import java.util.regex.PatternSyntaxException;
 
 public final class String
     implements java.io.Serializable, Comparable<String>, CharSequence {
+
+    /** String就是以char类型的数组为底层实现的 */
     /** The value is used for character storage. */
     private final char value[];
 
@@ -130,6 +132,13 @@ public final class String
         new ObjectStreamField[0];
 
     /**
+     * 首先字符串类是通过一个char类型的数组做为其底层实现的。
+     * 而且Java中String类有个很重要的特性是这个类是不可变的，
+     * 就是说如果你对一个String类做任何修改，都会返回一个新的String类。
+     * 这个特性就决定了Java中对于字面值相同的String类其底层可以共用同一个char数组来节省资源。
+     * new String() 返回的是一个长度为0的字符串。也就是说是可以直接利用 "" 的char数组
+     */
+    /**
      * Initializes a newly created {@code String} object so that it represents
      * an empty character sequence.  Note that use of this constructor is
      * unnecessary since Strings are immutable.
@@ -138,6 +147,10 @@ public final class String
         this.value = "".value;
     }
 
+    /**
+     * 这个构造方法实际上就是创建了参数 original 的一个拷贝；
+     * 除非真的需要一个参数字符串的复制体，否则没必要使用这个构造方法
+     */
     /**
      * Initializes a newly created {@code String} object so that it represents
      * the same sequence of characters as the argument; in other words, the
