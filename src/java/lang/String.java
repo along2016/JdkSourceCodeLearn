@@ -995,7 +995,7 @@ public final class String
             int n = value.length;
             if (n == anotherString.value.length) {
                 char v1[] = value;
-                char v2[] = anotherString.value;
+                char v2[] = anotherString.value;        // 注意：在对象所属的类中实例化的对象是可以直接访问对象的私有（private）属性的
                 int i = 0;
                 while (n-- != 0) {
                     if (v1[i] != v2[i])
