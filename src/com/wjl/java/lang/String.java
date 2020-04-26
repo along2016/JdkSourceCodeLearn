@@ -2029,7 +2029,9 @@ public final class String
             return this;
         }
         int len = value.length;
+        // 先将value数组复制一份出来，长度是value和str长度的和
         char buf[] = Arrays.copyOf(value, len + otherLen);
+        // 然后再将str复制到buf数组的后面
         str.getChars(buf, len);
         return new String(buf, true);
     }
@@ -2062,6 +2064,13 @@ public final class String
      * @param   newChar   the new character.
      * @return  a string derived from this string by replacing every
      *          occurrence of {@code oldChar} with {@code newChar}.
+     */
+    /**
+     * 将字符串中的旧字符串全都换成新字符串，有多少就替换多少；
+     * 如果新旧字符串相同或者需要替换的旧字符串不存在时，则返回String对象本身
+     * @param oldChar
+     * @param newChar
+     * @return
      */
     public String replace(char oldChar, char newChar) {
         if (oldChar != newChar) {
