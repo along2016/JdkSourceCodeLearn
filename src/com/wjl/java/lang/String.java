@@ -2076,6 +2076,8 @@ public final class String
         if (oldChar != newChar) {
             int len = value.length;
             int i = -1;
+            // 在一个方法中需要大量引用实例域变量(成员变量)的时候，使用方法中的局部变量代替引用可以减少getfield操作的次数，提高性能
+            // (getfiled指令: 获取指定类的实例域，并将其压入栈顶)
             char[] val = value; /* avoid getfield opcode */
 
             while (++i < len) {
