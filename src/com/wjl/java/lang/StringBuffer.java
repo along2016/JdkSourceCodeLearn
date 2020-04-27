@@ -94,6 +94,16 @@ import java.util.Arrays;
  * @see     java.lang.String
  * @since   JDK1.0
  */
+
+/**
+ * StringBuffer（字符串缓冲区）
+ * 1、线程安全、可改变
+ * 2、append 和 insert 是主要的方法，其中 append 方法将字符加在buffer的后面，
+ *    insert 方法将字符加在buffer的指定位置；这两个方法都有多种重载方法。
+ * 3、当发生与源序列有关的操作（如源序列中的 append 或 insert 操作）时，该类只在执行此操作的字符串缓冲区上而不是在源上实现同步。
+ *    如果构造函数、append 或者 insert 方法中传递了一个线程间共享的源序列，调用代码必须确保在操作期间，操作具有源序列的一致且不变的视图；
+ *    可以通过让调用者加锁、使用不可变的源序列或者不在线程间共享源序列来保证这一点。
+ */
  public final class StringBuffer
     extends AbstractStringBuilder
     implements java.io.Serializable, CharSequence
