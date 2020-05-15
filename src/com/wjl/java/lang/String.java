@@ -1409,6 +1409,8 @@ public final class String
         if ((toffset < 0) || (toffset > value.length - pc)) {
             return false;
         }
+
+        // 从 toffset 位置开始，将 prefix 的每个字符与字符串的每个字符逐一比较，有不匹配的就返回false
         while (--pc >= 0) {
             if (ta[to++] != pa[po++]) {
                 return false;
@@ -1753,6 +1755,7 @@ public final class String
     static int indexOf(char[] source, int sourceOffset, int sourceCount,
             char[] target, int targetOffset, int targetCount,
             int fromIndex) {
+        // 如果起始索引大于源字符串长度，则返回 0 或者 -1
         if (fromIndex >= sourceCount) {
             return (targetCount == 0 ? sourceCount : -1);
         }
@@ -1776,9 +1779,11 @@ public final class String
             if (i <= max) {
                 int j = i + 1;
                 int end = j + targetCount - 1;
+                // 这个循环找到和目标字符串完全相等的长度
                 for (int k = targetOffset + 1; j < end && source[j]
                         == target[k]; j++, k++);
 
+                // 如果完全相等的长度和目标字符串长度相等，那么就认为找到了
                 if (j == end) {
                     /* Found whole string. */
                     return i - sourceOffset;
@@ -2086,15 +2091,18 @@ public final class String
                 }
             }
             if (i < len) {
+                // 定义一个缓存字符数组，将需要操作的字符串数组复制到缓存字符数组中
                 char buf[] = new char[len];
                 for (int j = 0; j < i; j++) {
                     buf[j] = val[j];
                 }
+                // 循环缓存字符数组，将其中的旧字符换成新字符
                 while (i < len) {
                     char c = val[i];
                     buf[i] = (c == oldChar) ? newChar : c;
                     i++;
                 }
+                // 通过缓存数组实例化新的字符串返回
                 return new String(buf, true);
             }
         }
