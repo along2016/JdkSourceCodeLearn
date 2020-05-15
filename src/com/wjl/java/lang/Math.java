@@ -224,8 +224,8 @@ public final class Math {
 
     /**
      * Converts an angle measured in degrees to an approximately
-     * equivalent angle measured in radians.  The conversion from
-     * degrees to radians is generally inexact.
+     * equivalent angle measured in radians（弧度）.  The conversion（转换） from
+     * degrees to radians is generally inexact（不精确的）.
      *
      * @param   angdeg   an angle, in degrees
      * @return  the measurement of the angle {@code angdeg}
@@ -964,7 +964,7 @@ public final class Math {
     }
 
     /**
-     * Returns the negation of the argument, throwing an exception if the
+     * Returns the negation（取反） of the argument, throwing an exception if the
      * result overflows an {@code int}.
      *
      * @param a the value to negate
@@ -1842,7 +1842,7 @@ public final class Math {
     }
 
     /**
-     * Returns the floating-point number adjacent to the first
+     * Returns the floating-point number adjacent（临近） to the first
      * argument in the direction of the second argument.  If both
      * arguments compare as equal the second argument is returned.
      *
@@ -1851,7 +1851,7 @@ public final class Math {
      * <ul>
      * <li> If either argument is a NaN, then NaN is returned.
      *
-     * <li> If both arguments are signed zeros, {@code direction}
+     * <li> If both arguments are signed（有符号的） zeros, {@code direction}
      * is returned unchanged (as implied by the requirement of
      * returning the second argument if the arguments compare as
      * equal).
@@ -1859,7 +1859,7 @@ public final class Math {
      * <li> If {@code start} is
      * &plusmn;{@link Double#MIN_VALUE} and {@code direction}
      * has a value such that the result should have a smaller
-     * magnitude, then a zero with the same sign as {@code start}
+     * magnitude, then a zero with the same sign（相同符号） as {@code start}
      * is returned.
      *
      * <li> If {@code start} is infinite and
@@ -2041,9 +2041,9 @@ public final class Math {
     }
 
     /**
-     * Returns the floating-point value adjacent to {@code d} in
-     * the direction of positive infinity.  This method is
-     * semantically equivalent to {@code nextAfter(d,
+     * Returns the floating-point（浮点数） value adjacent to {@code d} in
+     * the direction of positive infinity（正无穷大）.  This method is
+     * semantically（语义上的） equivalent to {@code nextAfter(d,
      * Double.POSITIVE_INFINITY)}; however, a {@code nextUp}
      * implementation may run faster than its equivalent
      * {@code nextAfter} call.
