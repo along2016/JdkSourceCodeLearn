@@ -29,7 +29,7 @@ import sun.misc.DoubleConsts;
 
 /**
  * The class {@code StrictMath} contains methods for performing basic
- * numeric operations such as the elementary exponential, logarithm,
+ * numeric operations such as the elementary exponential（指数）, logarithm（对数）,
  * square root, and trigonometric functions.
  *
  * <p>To help ensure portability of Java programs, the definitions of
@@ -41,7 +41,7 @@ import sun.misc.DoubleConsts;
  * href="ftp://ftp.netlib.org/fdlibm.tar">{@code fdlibm}</a>. These
  * algorithms, which are written in the C programming language, are
  * then to be understood as executed with all floating-point
- * operations following the rules of Java floating-point arithmetic.
+ * operations following the rules of Java floating-point arithmetic（算法）.
  *
  * <p>The Java math library is defined with respect to
  * {@code fdlibm} version 5.3. Where {@code fdlibm} provides
@@ -62,7 +62,7 @@ import sun.misc.DoubleConsts;
  * the primitive type to ensure that arithmetic operations consistently
  * produce correct results, which in some cases means the operations
  * will not overflow the range of values of the computation.
- * The best practice is to choose the primitive type and algorithm to avoid
+ * The best practice is to choose the primitive type（基本类型） and algorithm to avoid
  * overflow. In cases where the size is {@code int} or {@code long} and
  * overflow errors need to be detected, the methods {@code addExact},
  * {@code subtractExact}, {@code multiplyExact}, and {@code toIntExact}
@@ -86,14 +86,14 @@ public final class StrictMath {
 
     /**
      * The {@code double} value that is closer than any other to
-     * <i>e</i>, the base of the natural logarithms.
+     * <i>e</i>, the base of the natural logarithms（自然对数）.
      */
     public static final double E = 2.7182818284590452354;
 
     /**
      * The {@code double} value that is closer than any other to
      * <i>pi</i>, the ratio of the circumference of a circle to its
-     * diameter.
+     * diameter（直径）.
      */
     public static final double PI = 3.14159265358979323846;
 
@@ -270,7 +270,7 @@ public final class StrictMath {
     public static native double sqrt(double a);
 
     /**
-     * Returns the cube root of a {@code double} value.  For
+     * Returns the cube root（立方根） of a {@code double} value.  For
      * positive finite {@code x}, {@code cbrt(-x) ==
      * -cbrt(x)}; that is, the cube root of a negative value is
      * the negative of the cube root of that value's magnitude.
@@ -295,7 +295,7 @@ public final class StrictMath {
     public static native double cbrt(double a);
 
     /**
-     * Computes the remainder operation on two arguments as prescribed
+     * Computes the remainder（余数） operation on two arguments as prescribed
      * by the IEEE 754 standard.
      * The remainder value is mathematically equal to
      * <code>f1&nbsp;-&nbsp;f2</code>&nbsp;&times;&nbsp;<i>n</i>,
@@ -308,8 +308,8 @@ public final class StrictMath {
      * <ul><li>If either argument is NaN, or the first argument is infinite,
      * or the second argument is positive zero or negative zero, then the
      * result is NaN.
-     * <li>If the first argument is finite and the second argument is
-     * infinite, then the result is the same as the first argument.</ul>
+     * <li>If the first argument is finite（有限的） and the second argument is
+     * infinite（无限的）, then the result is the same as the first argument.</ul>
      *
      * @param   f1   the dividend.
      * @param   f2   the divisor.
@@ -406,7 +406,7 @@ public final class StrictMath {
 
     /**
      * Returns the {@code double} value that is closest in value
-     * to the argument and is equal to a mathematical integer. If two
+     * to the argument and is equal to a mathematical（数学上的） integer. If two
      * {@code double} values that are mathematical integers are
      * equally close to the value of the argument, the result is the
      * integer value that is even. Special cases:
@@ -710,6 +710,7 @@ public final class StrictMath {
     }
 
     /**
+     * 求和
      * Returns the sum of its arguments,
      * throwing an exception if the result overflows an {@code int}.
      *
@@ -740,6 +741,7 @@ public final class StrictMath {
     }
 
     /**
+     * 求差
      * Returns the difference of the arguments,
      * throwing an exception if the result overflows an {@code int}.
      *
@@ -1211,7 +1213,7 @@ public final class StrictMath {
     }
 
     /**
-     * Returns the hyperbolic sine of a {@code double} value.
+     * Returns the hyperbolic sine（双曲（线）正弦） of a {@code double} value.
      * The hyperbolic sine of <i>x</i> is defined to be
      * (<i>e<sup>x</sup>&nbsp;-&nbsp;e<sup>-x</sup></i>)/2
      * where <i>e</i> is {@linkplain Math#E Euler's number}.
@@ -1260,7 +1262,7 @@ public final class StrictMath {
     public static native double cosh(double x);
 
     /**
-     * Returns the hyperbolic tangent of a {@code double} value.
+     * Returns the hyperbolic tangent（双曲正切） of a {@code double} value.
      * The hyperbolic tangent of <i>x</i> is defined to be
      * (<i>e<sup>x</sup>&nbsp;-&nbsp;e<sup>-x</sup></i>)/(<i>e<sup>x</sup>&nbsp;+&nbsp;e<sup>-x</sup></i>),
      * in other words, {@linkplain Math#sinh
