@@ -153,6 +153,11 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
  * @since 1.5
  * @author Doug Lea
  */
+
+/**
+ * Semaphore 是一个计数信号量，必须由获取它的线程释放；
+ * 常用于限制可以访问某些资源的线程数量，例如通过 Semaphore 限流。
+ */
 public class Semaphore implements java.io.Serializable {
     private static final long serialVersionUID = -3222578661600680210L;
     /** All mechanics via AbstractQueuedSynchronizer subclass */

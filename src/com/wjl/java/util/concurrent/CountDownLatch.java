@@ -153,6 +153,12 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
  * @since 1.5
  * @author Doug Lea
  */
+
+/**
+ * 1、CountDownLatch 这个类使一个线程等待其他线程各自执行完毕后再执行。
+ * 2、是通过一个计数器来实现的，计数器的初始值是线程的数量。每当一个线程执行完毕后，
+ * 计数器的值就-1，当计数器的值为0时，表示所有线程都执行完毕，然后在闭锁上等待的线程就可以恢复工作了
+ */
 public class CountDownLatch {
     /**
      * Synchronization control For CountDownLatch.
@@ -227,6 +233,7 @@ public class CountDownLatch {
      * @throws InterruptedException if the current thread is interrupted
      *         while waiting
      */
+    // 调用await()方法的线程会被挂起，它会等待直到count值为0才继续执行
     public void await() throws InterruptedException {
         sync.acquireSharedInterruptibly(1);
     }
