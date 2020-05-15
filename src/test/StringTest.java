@@ -13,6 +13,6 @@ public class StringTest {
 //        long end = System.currentTimeMillis();
 //        System.out.println("耗时：" + (end - begin) + "毫秒");
 //        System.out.println(StrictMath.multiplyExact(-5L, 6));
-        System.out.println(Math.ulp(9));
+        System.out.println(Long.toOctalString(8));
     }
 }

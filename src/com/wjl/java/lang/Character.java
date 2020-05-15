@@ -136,7 +136,7 @@ class Character implements java.io.Serializable, Comparable<Character> {
     public static final int MIN_RADIX = 2;
 
     /**
-     * The maximum radix available for conversion to and from strings.
+     * The maximum radix（基数） available for conversion to and from strings.
      * The constant value of this field is the largest value permitted
      * for the radix argument in radix-conversion methods such as the
      * {@code digit} method, the {@code forDigit} method, and the

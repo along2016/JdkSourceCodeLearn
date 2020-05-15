@@ -226,13 +226,14 @@ public final class Long extends Number implements Comparable<Long> {
     }
 
     /**
+     * 返回十六进制的无符号整数
      * Returns a string representation of the {@code long}
      * argument as an unsigned integer in base&nbsp;16.
      *
      * <p>The unsigned {@code long} value is the argument plus
      * 2<sup>64</sup> if the argument is negative; otherwise, it is
      * equal to the argument.  This value is converted to a string of
-     * ASCII digits in hexadecimal (base&nbsp;16) with no extra
+     * ASCII digits in hexadecimal（十六进制的） (base&nbsp;16) with no extra
      * leading {@code 0}s.
      *
      * <p>The value of the argument can be recovered from the returned
@@ -273,6 +274,7 @@ public final class Long extends Number implements Comparable<Long> {
     }
 
     /**
+     * 返回八进制的无符号整数
      * Returns a string representation of the {@code long}
      * argument as an unsigned integer in base&nbsp;8.
      *
@@ -312,6 +314,7 @@ public final class Long extends Number implements Comparable<Long> {
     }
 
     /**
+     * 返回二进制的无符号整数
      * Returns a string representation of the {@code long}
      * argument as an unsigned integer in base&nbsp;2.
      *
