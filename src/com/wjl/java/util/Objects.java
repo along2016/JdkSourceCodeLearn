@@ -64,7 +64,7 @@ public final class Objects {
     * and {@code false} otherwise.
     *
     * Two {@code null} values are deeply equal.  If both arguments are
-    * arrays, the algorithm in {@link Arrays#deepEquals(Object[],
+    * arrays, the algorithm（算法） in {@link Arrays#deepEquals(Object[],
     * Object[]) Arrays.deepEquals} is used to determine equality.
     * Otherwise, equality is determined by using the {@link
     * Object#equals equals} method of the first argument.
@@ -115,7 +115,7 @@ public final class Objects {
     * }
     * </pre></blockquote>
     *
-    * <b>Warning: When a single object reference is supplied, the returned
+    * <b>Warning: When a single object reference is supplied（提供）, the returned
     * value does not equal the hash code of that object reference.</b> This
     * value can be computed by calling {@link #hashCode(Object)}.
     *
@@ -162,7 +162,7 @@ public final class Objects {
     /**
      * Returns 0 if the arguments are identical and {@code
      * c.compare(a, b)} otherwise.
-     * Consequently, if both arguments are {@code null} 0
+     * Consequently（因此）, if both arguments are {@code null} 0
      * is returned.
      *
      * <p>Note that if one of the arguments is {@code null}, a {@code
@@ -186,7 +186,7 @@ public final class Objects {
     /**
      * Checks that the specified object reference is not {@code null}. This
      * method is designed primarily for doing parameter validation in methods
-     * and constructors, as demonstrated below:
+     * and constructors, as demonstrated（演示） below:
      * <blockquote><pre>
      * public Foo(Bar bar) {
      *     this.bar = Objects.requireNonNull(bar);

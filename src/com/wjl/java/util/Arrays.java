@@ -88,13 +88,21 @@ public class Arrays {
      * implementations, the compare method only declares type Object
      * for its second argument.
      *
-     * Arrays class implementor's note: It is an empirical matter
-     * whether ComparableTimSort offers any performance benefit over
+     * Arrays class implementor's note: It is an empirical matter（经验问题）
+     * whether ComparableTimSort offers any performance benefit（性能优势） over
      * TimSort used with this comparator.  If not, you are better off
      * deleting or bypassing ComparableTimSort.  There is currently no
      * empirical case for separating them for parallel sorting, so all
      * public Object parallelSort methods use the same comparator
      * based implementation.
+     *
+     * <p>
+     * 实现一组相互可比较的元素的自然排序的比较器。当提供的比较器为空时,可以使用。
+     * 为了简化底层实现中的代码共享，compare 方法只声明 Object 的第二个参数。
+     *
+     * Arrays 类实现者的注意事项：ComparableTimSort 是否比使用此比较器的 TimSort 提供任何性能优势是一个经验问题。
+     * 如果没有,你最好删除或绕过 ComparableTimSort。
+     * 目前没有将它们分离用于并行排序的经验情况,因此所有公共对象 parallelSort 方法使用相同的基于比较器的实现。
      */
     static final class NaturalOrder implements Comparator<Object> {
         @SuppressWarnings("unchecked")
@@ -139,6 +147,10 @@ public class Arrays {
      * faster than traditional (one-pivot) Quicksort implementations.
      *
      * @param a the array to be sorted
+     *
+     * 将指定的数组按升序排序。
+     * 实现注意事项：排序算法是 Vladimir Yaroslavskiy,Jon Bentley 和 Joshua Bloch 写的 Dual-Pivot 快速排序算法。
+     * 此算法在许多数据集上提供 O(n log(n)) 性能，导致其他快速排序降级为二次性能,并且通常比传统(单点)Quicksort实现更快。
      */
     public static void sort(int[] a) {
         DualPivotQuicksort.sort(a, 0, a.length - 1, null, 0, 0);
@@ -479,7 +491,7 @@ public class Arrays {
      *
      * @implNote The sorting algorithm is a parallel sort-merge that breaks the
      * array into sub-arrays that are themselves sorted and then merged. When
-     * the sub-array length reaches a minimum granularity, the sub-array is
+     * the sub-array length reaches a minimum granularity（最小粒度）, the sub-array is
      * sorted using the appropriate {@link Arrays#sort(byte[]) Arrays.sort}
      * method. If the length of the specified array is less than the minimum
      * granularity, then it is sorted using the appropriate {@link
@@ -1628,6 +1640,15 @@ public class Arrays {
      * Parallel prefix computation is usually more efficient than
      * sequential loops for large arrays.
      *
+     * 使用提供的函数,并行地累积给定数组的每个元素。
+     * 例如,如果数组最初保存{@code [2,1,0,3]}并且操作执行添加，则返回时数组保存{@code [2,3,3,6]}。
+     * 并行前缀计算通常比大数组的顺序循环更有效。
+     *
+     * example:
+     * int[] ints = {8, 14, 3, 2, 9, 48};
+     * Arrays.parallelPrefix(ints, (a, b) -> a * b);
+     * System.out.println(Arrays.toString(ints));
+     *
      * @param array the array, which is modified in-place by this method
      * @param op a side-effect-free, associative function to perform the
      * cumulation
@@ -1767,6 +1788,13 @@ public class Arrays {
      * is not sorted, the results are undefined.  If the array contains
      * multiple elements with the specified value, there is no guarantee which
      * one will be found.
+     *
+     * 使用二分查找算法搜索指定 long 数组的指定值。
+     * 在进行此调用之前,必须对数组进行排序(如通过{@link #sort(long [])}方法)。如果没有排序，结果是不明确的。
+     * 如果数组包含具有指定值的多个元素,则不能保证找到哪个元素。
+     *
+     * 注意：
+     * 只能对已经排序的数组使用二分查找算法，否则返回的结果不准确。
      *
      * @param a the array to be searched
      * @param key the value to be searched for
@@ -2568,9 +2596,9 @@ public class Arrays {
      * @return <tt>true</tt> if the two arrays are equal
      */
     public static boolean equals(long[] a, long[] a2) {
-        if (a==a2)
+        if (a == a2)
             return true;
-        if (a==null || a2==null)
+        if (a == null || a2 == null)
             return false;
 
         int length = a.length;
@@ -2597,9 +2625,9 @@ public class Arrays {
      * @return <tt>true</tt> if the two arrays are equal
      */
     public static boolean equals(int[] a, int[] a2) {
-        if (a==a2)
+        if (a == a2)
             return true;
-        if (a==null || a2==null)
+        if (a == null || a2 == null)
             return false;
 
         int length = a.length;
@@ -2626,9 +2654,9 @@ public class Arrays {
      * @return <tt>true</tt> if the two arrays are equal
      */
     public static boolean equals(short[] a, short a2[]) {
-        if (a==a2)
+        if (a == a2)
             return true;
-        if (a==null || a2==null)
+        if (a == null || a2 == null)
             return false;
 
         int length = a.length;
@@ -2655,9 +2683,9 @@ public class Arrays {
      * @return <tt>true</tt> if the two arrays are equal
      */
     public static boolean equals(char[] a, char[] a2) {
-        if (a==a2)
+        if (a == a2)
             return true;
-        if (a==null || a2==null)
+        if (a == null || a2 == null)
             return false;
 
         int length = a.length;
@@ -2684,16 +2712,16 @@ public class Arrays {
      * @return <tt>true</tt> if the two arrays are equal
      */
     public static boolean equals(byte[] a, byte[] a2) {
-        if (a==a2)
+        if (a == a2)
             return true;
-        if (a==null || a2==null)
+        if (a == null || a2 == null)
             return false;
 
         int length = a.length;
         if (a2.length != length)
             return false;
 
-        for (int i=0; i<length; i++)
+        for (int i = 0; i < length; i++)
             if (a[i] != a2[i])
                 return false;
 
@@ -2713,9 +2741,9 @@ public class Arrays {
      * @return <tt>true</tt> if the two arrays are equal
      */
     public static boolean equals(boolean[] a, boolean[] a2) {
-        if (a==a2)
+        if (a == a2)
             return true;
-        if (a==null || a2==null)
+        if (a == null || a2 == null)
             return false;
 
         int length = a.length;
@@ -2748,9 +2776,9 @@ public class Arrays {
      * @see Double#equals(Object)
      */
     public static boolean equals(double[] a, double[] a2) {
-        if (a==a2)
+        if (a == a2)
             return true;
-        if (a==null || a2==null)
+        if (a == null || a2 == null)
             return false;
 
         int length = a.length;
@@ -2758,7 +2786,7 @@ public class Arrays {
             return false;
 
         for (int i=0; i<length; i++)
-            if (Double.doubleToLongBits(a[i])!=Double.doubleToLongBits(a2[i]))
+            if (Double.doubleToLongBits(a[i]) != Double.doubleToLongBits(a2[i]))
                 return false;
 
         return true;
@@ -2783,9 +2811,9 @@ public class Arrays {
      * @see Float#equals(Object)
      */
     public static boolean equals(float[] a, float[] a2) {
-        if (a==a2)
+        if (a == a2)
             return true;
-        if (a==null || a2==null)
+        if (a == null || a2 == null)
             return false;
 
         int length = a.length;
@@ -2793,7 +2821,7 @@ public class Arrays {
             return false;
 
         for (int i=0; i<length; i++)
-            if (Float.floatToIntBits(a[i])!=Float.floatToIntBits(a2[i]))
+            if (Float.floatToIntBits(a[i]) != Float.floatToIntBits(a2[i]))
                 return false;
 
         return true;
@@ -2814,9 +2842,9 @@ public class Arrays {
      * @return <tt>true</tt> if the two arrays are equal
      */
     public static boolean equals(Object[] a, Object[] a2) {
-        if (a==a2)
+        if (a == a2)
             return true;
-        if (a==null || a2==null)
+        if (a == null || a2 == null)
             return false;
 
         int length = a.length;
@@ -2826,7 +2854,7 @@ public class Arrays {
         for (int i=0; i<length; i++) {
             Object o1 = a[i];
             Object o2 = a2[i];
-            if (!(o1==null ? o2==null : o1.equals(o2)))
+            if (!(o1 == null ? o2 == null : o1.equals(o2)))
                 return false;
         }
 
@@ -3190,6 +3218,13 @@ public class Arrays {
      * Such indices will exist if and only if the specified length
      * is greater than that of the original array.
      * The resulting array is of the class <tt>newType</tt>.
+     *
+     * 复制指定的数组，截断或使用空值进行填充(如果需要)，以便副本具有指定的长度。
+     * 对于在原始数组和副本中都有效的所有索引，这两个数组将包含相同的值。
+     * 对于在副本中有效但原始数组没有的任何索引，副本将用 null 来填充。
+     * 当且仅当指定的长度大于原始数组的长度时，这样的索引才会存在。
+     * 生成的数组是<tt> newType </tt>类。
+     *
      *
      * @param <U> the class of the objects in the original array
      * @param <T> the class of the objects in the returned array
@@ -4246,11 +4281,14 @@ public class Arrays {
      * @see #equals(Object[],Object[])
      * @see Objects#deepEquals(Object, Object)
      * @since 1.5
+     *
+     * deepEquals用于判定两个指定数组彼此是否深层相等，此方法适用于任意深度的嵌套数组；
+     * 如果要比较多维数组，则需要使用deepEquals方法。
      */
     public static boolean deepEquals(Object[] a1, Object[] a2) {
         if (a1 == a2)
             return true;
-        if (a1 == null || a2==null)
+        if (a1 == null || a2 == null)
             return false;
         int length = a1.length;
         if (a2.length != length)
