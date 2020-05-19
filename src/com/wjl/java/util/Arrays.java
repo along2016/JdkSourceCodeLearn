@@ -4873,7 +4873,7 @@ public class Arrays {
     /**
      * Returns a {@link Spliterator} covering all of the specified array.
      *
-     * <p>The spliterator reports {@link Spliterator#SIZED},
+     * <p>The spliterator（分割器） reports {@link Spliterator#SIZED},
      * {@link Spliterator#SUBSIZED}, {@link Spliterator#ORDERED}, and
      * {@link Spliterator#IMMUTABLE}.
      *

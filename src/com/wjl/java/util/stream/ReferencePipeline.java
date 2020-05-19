@@ -46,8 +46,8 @@ import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 
 /**
- * Abstract base class for an intermediate pipeline stage or pipeline source
- * stage implementing whose elements are of type {@code U}.
+ * Abstract base class for an intermediate pipeline stage（管道中间阶段） or pipeline source
+ * stage（管道源阶段） implementing whose elements are of type {@code U}.
  *
  * @param <P_IN> type of elements in the upstream source
  * @param <P_OUT> type of elements in produced by this stage
@@ -85,7 +85,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     /**
-     * Constructor for appending an intermediate operation onto an existing
+     * Constructor for appending an intermediate operation（中间操作） onto an existing
      * pipeline.
      *
      * @param upstream the upstream element source.

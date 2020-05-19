@@ -11,6 +11,8 @@ public class ArraysTest {
 //        Arrays.sort(ints);
 //        System.out.println(Arrays.toString(ints));
 //        int index = Arrays.binarySearch(ints, 52);
-        System.out.println(Arrays.hashCode(ints) == Arrays.hashCode(ints1));
+//        System.out.println(Arrays.hashCode(ints) == Arrays.hashCode(ints1));
+        Arrays.setAll(ints, x -> x*2);
+        System.out.println(Arrays.toString(ints));
     }
 }

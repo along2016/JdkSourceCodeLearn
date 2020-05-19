@@ -30,13 +30,17 @@ import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
 /**
- * An object for traversing and partitioning elements of a source.  The source
+ * https://blog.csdn.net/dage960815/article/details/100036578
+ *
+ * An object for traversing（遍历） and partitioning（分割） elements of a source.  The source
  * of elements covered by a Spliterator could be, for example, an array, a
- * {@link Collection}, an IO channel, or a generator function.
+ * {@link Collection}, an IO channel, or a generator function（生成器函数）.
  *
  * <p>A Spliterator may traverse elements individually ({@link
  * #tryAdvance tryAdvance()}) or sequentially in bulk
  * ({@link #forEachRemaining forEachRemaining()}).
+ *
+ * Spliterator 可以单独遍历元素({@link #tryAdvance tryAdvance()})或批量遍历元素({@link #forEachRemaining forEachRemaining()}
  *
  * <p>A Spliterator may also partition off some of its elements (using
  * {@link #trySplit}) as another Spliterator, to be used in
@@ -292,6 +296,55 @@ import java.util.function.LongConsumer;
  *
  * @see Collection
  * @since 1.8
+ */
+
+/**
+ * 名词解释：
+ * Spliterator 以下简称Sp
+ * structural interference 译为：结构被修改，也就是数据源被修改
+ * <p>
+ * Spliterator文档解析描述
+ * <p>
+ * 它是一个用于分区和遍历源数据的对象，源可以是数组、集合或者是io函数；
+ * <p>
+ * 可以通过 tryAdvance 单独遍历或是 forEachRemaining 循环遍历；
+ * <p>
+ * 可以将一个Sp分裂成两个平行的Sp，用于并行计算，如果分裂代价过大或者分裂没有意义对并行来说就是负担，
+ * 每个Sp只会作用到属于自己的那一块区域;
+ * <p>
+ * 它有一些特性值，例如ORDERED、DISTINCT等，用于简化计算，类似Collectors中特性值含义，
+ * 例如来自List的Sp就会包含ORDERED，Set就会包含DISTINCT等；
+ * <p>
+ * 某些特性值会有特殊含义，例如ORDERED就代表会被顺序执行，JDK告诉我们不要去定义新的特性，老老实实用它现在的就行了；
+ * <p>
+ * <p>
+ * 如果一个Sp不包含IMMUTABLE或者CONCURRENT，会在绑定之后进行源数据的检测，
+ * 一个延迟绑定的Sp绑定数据源出现方法的第一次遍历、分割或是第一次查询大小，而不是第一次创建，
+ * 一个非延迟绑定的Sp，绑定数据在于构造或是任意方法第一次调用，
+ * 如果绑定之前修改的数据源，那么绑定后的数据也会被改变，但是如果绑定之后检测到数据结构被修改，就会抛出ConcurrentModificationException异常，
+ * Sp有快速失效策略，例如forEachRemaining方法，Sp会优化遍历策略，并不是在每次调用元素时就会检测一次，这样效率比较低，它是在所有元素执行完毕之后再进行检测；
+ * <p>
+ * Sp提供一个估值的操作，如果包含SIZED特性，这个估值就是代表所有遇到的元素，如果不包含也会提供一个大概的值用于分割；
+ * <p>
+ * 虽然Sp分裂非常适合于并行操作，但是它不是线程安全的，需要由调用者来保证，通常都是使用顺序调用的方式来避免线程安全问题，Sp分裂后可以进行再次分裂，
+ * 分裂最好都是在元素被消费之前进行分裂，因为元素被消费后，分裂出对应的SIZED往往是不准确的；
+ * <p>
+ * 为了提高效率，减少装箱拆箱的损耗，提供了OfInt、OfLong、OfDouble的特例，具体细节可以看代码；
+ * <p>
+ * Sp类似于Iterator，用来进行元素遍历，它提供了效率更高的并行分割遍历的方式，抛弃了Iterator的hasNext()和next()方法，避免线程竞争，
+ * Iterator会通过两次校对hasNext()和next()获取下一个元素，Sp将其简化为一个方法，具体哪个方法我也没细看。。TODO Sp的简化遍历的方法；
+ * <p>
+ * 对于可变源，如果在源绑定到消费这个过程中，这个过程中源结构如果发生变化（替换、新增、删除），结果就会具备不确定性；
+ * <p>
+ * 可变源可以通过如下几种方式来控制
+ * 1、源结构不能被修改 CopyOnWriteArrayList是一个不可变的源，通过复制重写的方式来实现源结构更新，通过这种方式避免了线程竞争的方式，适合于读多写少的场景；
+ * 2、可以并发修改的源 ConcurrentHashMap通过分段锁来控制每一片bucket；
+ * 3、延时绑定和快速失败的源 ArrayList以及大部分的Collection的子类都具备这个特性，会在源绑定之后元素消费之前如果检测到结构被修改，会遵循快速失效的策略；
+ * 4、非延时绑定和快速失败的源 类似3，但是由于它绑定时机更早，所有从元素绑定到检测时间会更长
+ * 5、延迟绑定和非快速失败的源 在绑定后进行遍历（消费）中，如果元素发生的变化，由于没有快速失败策略，后续的行为是不确定的；
+ * 6、非延时绑定和非快速失败的源 在构造或是某个方法调用时就会被绑定，中间元素改变后，后续的行为也是不确定的；5,6两种都是有风险的
+ * <p>
+ * 下面有两个例子介绍了Sp和并行分割基本用法,细节可以自己去看
  */
 public interface Spliterator<T> {
     /**
