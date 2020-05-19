@@ -138,20 +138,26 @@ import java.util.function.LongConsumer;
  * race involved in having separate methods for {@code hasNext()} and
  * {@code next()}.
  *
- * <p>For mutable sources, arbitrary and non-deterministic behavior may occur if
- * the source is structurally interfered with (elements added, replaced, or
- * removed) between the time that the Spliterator binds to its data source and
- * the end of traversal.  For example, such interference will produce arbitrary,
+ * <p>For mutable sources, arbitrary（任意的） and non-deterministic（不确定的） behavior
+ * may occur if the source is structurally（在结构上） interfered with（干扰）
+ * elements added, replaced, or removed) between the time that the Spliterator
+ * binds to its data source and the end of traversal.
+ * For example, such interference will produce arbitrary,
  * non-deterministic results when using the {@code java.util.stream} framework.
  *
- * <p>Structural interference of a source can be managed in the following ways
- * (in approximate order of decreasing desirability):
+ * 对于可变源，如果在源绑定到消费这个过程中，如果发生变化（替换、新增、删除），结果就会具备不确定性；
+ *
+ * <p>Structural interference（结构被修改，也就是数据源被修改） of a source can be managed in the following ways
+ * 可变源可以通过如下几种方式来控制
+ * (in approximate order of decreasing desirability 按可取性依次降低的大致顺序排列):
  * <ul>
  * <li>The source cannot be structurally interfered with.
  * <br>For example, an instance of
  * {@link java.util.concurrent.CopyOnWriteArrayList} is an immutable source.
  * A Spliterator created from the source reports a characteristic of
  * {@code IMMUTABLE}.</li>
+ * 从源创建的 Spliterator 传达不可变的特性
+ *
  * <li>The source manages concurrent modifications.
  * <br>For example, a key set of a {@link java.util.concurrent.ConcurrentHashMap}
  * is a concurrent source.  A Spliterator created from the source reports a
@@ -337,14 +343,14 @@ import java.util.function.LongConsumer;
  * 对于可变源，如果在源绑定到消费这个过程中，这个过程中源结构如果发生变化（替换、新增、删除），结果就会具备不确定性；
  * <p>
  * 可变源可以通过如下几种方式来控制
- * 1、源结构不能被修改 CopyOnWriteArrayList是一个不可变的源，通过复制重写的方式来实现源结构更新，通过这种方式避免了线程竞争的方式，适合于读多写少的场景；
+ * 1、源结构不能被修改 CopyOnWriteArrayList是一个不可变的源，通过复制重写的方式来实现源结构更新，
+ *   通过这种方式避免了线程竞争的方式，适合于读多写少的场景；
  * 2、可以并发修改的源 ConcurrentHashMap通过分段锁来控制每一片bucket；
  * 3、延时绑定和快速失败的源 ArrayList以及大部分的Collection的子类都具备这个特性，会在源绑定之后元素消费之前如果检测到结构被修改，会遵循快速失效的策略；
  * 4、非延时绑定和快速失败的源 类似3，但是由于它绑定时机更早，所有从元素绑定到检测时间会更长
  * 5、延迟绑定和非快速失败的源 在绑定后进行遍历（消费）中，如果元素发生的变化，由于没有快速失败策略，后续的行为是不确定的；
  * 6、非延时绑定和非快速失败的源 在构造或是某个方法调用时就会被绑定，中间元素改变后，后续的行为也是不确定的；5,6两种都是有风险的
  * <p>
- * 下面有两个例子介绍了Sp和并行分割基本用法,细节可以自己去看
  */
 public interface Spliterator<T> {
     /**
@@ -354,7 +360,11 @@ public interface Spliterator<T> {
      * next element in encounter order.  Exceptions thrown by the
      * action are relayed to the caller.
      *
-     * @param action The action
+     * 尝试获取元素
+     * 如果元素存在,就会执行给定操作，并返回true；元素不存在，就会返回false；
+     * 异常会返回给调用者
+     *
+     * @param action The action     给定动作
      * @return {@code false} if no remaining elements existed
      * upon entry to this method, else {@code true}.
      * @throws NullPointerException if the specified action is null
@@ -367,6 +377,9 @@ public interface Spliterator<T> {
      * throws an exception.  If this Spliterator is {@link #ORDERED}, actions
      * are performed in encounter order.  Exceptions thrown by the action
      * are relayed to the caller.
+     *
+     * 对于每个遇到的元素会在当前线程执行给定的动作，也就是循环；
+     * 在所有元素消费完或是抛出异常后停止；
      *
      * @implSpec
      * The default implementation repeatedly invokes {@link #tryAdvance} until
@@ -420,6 +433,19 @@ public interface Spliterator<T> {
      * @return a {@code Spliterator} covering some portion of the
      * elements, or {@code null} if this spliterator cannot be split
      */
+    /**
+     * 尝试分割
+     * 如果当前Sp可以被分割，当前的Sp会被截取，返回一个全新的sp并持有一定数量的元素；
+     * 如果当前Sp包含ORDERED，返回的元素也必须包含；
+     * 除非当前Sp是一个无限流，否则重复调用trySplit()最终会返回一个null；
+     * 拆分前的estimateSize，必须大于或是等于拆分后Sp的estimateSize；
+     * 如果这个sp包含SUBSIZED，那么分裂前的estimateSize必须等于分裂后estimateSize的总和；
+     * 可能会因为任意原因返回null，本身就是一个空值、已经是最小分割单元等等原因，提醒我们要做校验；
+     *
+     * @return New Sp/null
+     * @apiNote 理想情况是将Sp分割成两半, 从而实现平衡计算，但是并不是说只有理想情况下效率才会最高，
+     * 例如某些平衡树，就不适合对叶节点分割
+     */
     Spliterator<T> trySplit();
 
     /**
@@ -427,7 +453,7 @@ public interface Spliterator<T> {
      * encountered by a {@link #forEachRemaining} traversal, or returns {@link
      * Long#MAX_VALUE} if infinite, unknown, or too expensive to compute.
      *
-     * <p>If this Spliterator is {@link #SIZED} and has not yet been partially
+     * <p>If this Spliterator is {@link #SIZED} and has not yet been partially（部分）
      * traversed or split, or this Spliterator is {@link #SUBSIZED} and has
      * not yet been partially traversed, this estimate must be an accurate
      * count of elements that would be encountered by a complete traversal.
@@ -444,6 +470,11 @@ public interface Spliterator<T> {
      *
      * @return the estimated size, or {@code Long.MAX_VALUE} if infinite,
      *         unknown, or too expensive to compute.
+     */
+    /**
+     * 返回一个估计元素长度值,如果是个无限流就会返回Long的MAX_VALUE;
+     * 如果Sp包含SIZED属性，并且没有被消费、遍历和拆分，那其实就是准确的；
+     * 即时这个值不准确也很有用，记就完事了；
      */
     long estimateSize();
 
@@ -481,6 +512,10 @@ public interface Spliterator<T> {
      * and {@link #CONCURRENT}.
      *
      * @return a representation of characteristics
+     */
+    /**
+     * 特性值
+     * @return
      */
     int characteristics();
 
@@ -536,12 +571,20 @@ public interface Spliterator<T> {
      * {@code ORDERED} are expected to preserve ordering constraints in
      * non-commutative parallel computations.
      */
+    /**
+     * 顺序的
+     * 当前Sp会保证trySplit、tryAdvance、forEachRemaining中进行消费的元素都是顺序执行的；
+     */
     public static final int ORDERED    = 0x00000010;
 
     /**
      * Characteristic value signifying that, for each pair of
      * encountered elements {@code x, y}, {@code !x.equals(y)}. This
      * applies for example, to a Spliterator based on a {@link Set}.
+     */
+    /**
+     * 不重复的
+     * （x,y）-> !x.equals(y)
      */
     public static final int DISTINCT   = 0x00000001;
 
@@ -557,6 +600,10 @@ public interface Spliterator<T> {
      * @apiNote The spliterators for {@code Collection} classes in the JDK that
      * implement {@link NavigableSet} or {@link SortedSet} report {@code SORTED}.
      */
+    /**
+     * 排序的
+     * 默认是自然顺序，可以通过getComparator进行重新定义
+     */
     public static final int SORTED     = 0x00000004;
 
     /**
@@ -571,12 +618,20 @@ public interface Spliterator<T> {
      * those for {@link HashSet}, that cover a sub-set of elements and
      * approximate their reported size do not.
      */
+    /**
+     * 已知大小
+     * 标识元素在绑定之后，遍历或是消费的元素数量是有限大小；
+     * 在没有并发修改源的情况，这个大小就是准确源大小；
+     */
     public static final int SIZED      = 0x00000040;
 
     /**
      * Characteristic value signifying that the source guarantees that
      * encountered elements will not be {@code null}. (This applies,
      * for example, to most concurrent collections, queues, and maps.)
+     */
+    /**
+     * 非空
      */
     public static final int NONNULL    = 0x00000100;
 
@@ -588,6 +643,9 @@ public interface Spliterator<T> {
      * to have a documented policy (for example throwing
      * {@link ConcurrentModificationException}) concerning structural
      * interference detected during traversal.
+     */
+    /**
+     * 不可变，在元素绑定之后，源不能发生变化，否则会抛出ConcurrentModificationException
      */
     public static final int IMMUTABLE  = 0x00000400;
 
@@ -611,6 +669,9 @@ public interface Spliterator<T> {
      * Spliterator construction, but possibly not reflecting subsequent
      * additions or removals.
      */
+    /**
+     * 并发，意味着源可以进行并发修改、更换和删除的操作，标识元素的SIZED不应在顶级Sp中被体现,因为源随时可能会发生变化
+     */
     public static final int CONCURRENT = 0x00001000;
 
     /**
@@ -627,6 +688,9 @@ public interface Spliterator<T> {
      * approximately balanced binary tree, will report {@code SIZED} but not
      * {@code SUBSIZED}, since it is common to know the size of the entire tree
      * but not the exact sizes of subtrees.
+     */
+    /**
+     * 子集大小,由trySplit生成的都会包含SIZED和SUBSIZED特性
      */
     public static final int SUBSIZED = 0x00004000;
 
