@@ -5,14 +5,15 @@ import java.util.Arrays;
 public class ArraysTest {
 
     public static void main(String[] args) {
-        int[] ints = {4, 8, 40, 52, 60};
-        int[] ints1 = {4, 8, 40, 52, 60};
+        int[][] ints = {{4}, {1, 2}, {40, 20}, {52, 60}};
+        int[][] ints1 = {{4}, {1, 2}, {40, 20}, {52, 60}};
 //        Arrays.parallelPrefix(ints, (a, b) -> a * b);
 //        Arrays.sort(ints);
 //        System.out.println(Arrays.toString(ints));
 //        int index = Arrays.binarySearch(ints, 52);
 //        System.out.println(Arrays.hashCode(ints) == Arrays.hashCode(ints1));
-        Arrays.setAll(ints, x -> x*2);
-        System.out.println(Arrays.toString(ints));
+
+        System.out.println(Arrays.equals(ints, ints1));
+        System.out.println(Arrays.deepEquals(ints, ints1));
     }
 }

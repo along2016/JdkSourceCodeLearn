@@ -4617,7 +4617,7 @@ public class Arrays {
      * Returns a string representation of the "deep contents" of the specified
      * array.  If the array contains other arrays as elements, the string
      * representation contains their contents and so on.  This method is
-     * designed for converting multidimensional arrays to strings.
+     * designed for converting multidimensional arrays（多维数组） to strings.
      *
      * <p>The string representation consists of a list of the array's
      * elements, enclosed in square brackets (<tt>"[]"</tt>).  Adjacent
