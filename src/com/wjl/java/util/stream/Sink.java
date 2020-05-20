@@ -31,7 +31,7 @@ import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
 /**
- * An extension of {@link Consumer} used to conduct values through the stages of
+ * An extension of {@link Consumer} used to conduct（组织） values through the stages of
  * a stream pipeline, with additional methods to manage size information,
  * control flow, etc.  Before calling the {@code accept()} method on a
  * {@code Sink} for the first time, you must first call the {@code begin()}
@@ -45,15 +45,15 @@ import java.util.function.LongConsumer;
  * {@code Sink}.
  *
  * <p>A sink may be in one of two states: an initial state and an active state.
- * It starts out in the initial state; the {@code begin()} method transitions
+ * It starts out in the initial state; the {@code begin()} method transitions（转换）
  * it to the active state, and the {@code end()} method transitions it back into
  * the initial state, where it can be re-used.  Data-accepting methods (such as
  * {@code accept()} are only valid in the active state.
  *
  * @apiNote
  * A stream pipeline consists of a source, zero or more intermediate stages
- * (such as filtering or mapping), and a terminal stage, such as reduction or
- * for-each.  For concreteness, consider the pipeline:
+ * (such as filtering or mapping), and a terminal stage（终止阶段）, such as reduction or
+ * for-each.  For concreteness（具体地说）, consider the pipeline:
  *
  * <pre>{@code
  *     int longestStringLengthStartingWithA
@@ -64,7 +64,7 @@ import java.util.function.LongConsumer;
  * }</pre>
  *
  * <p>Here, we have three stages, filtering, mapping, and reducing.  The
- * filtering stage consumes strings and emits a subset of those strings; the
+ * filtering stage consumes strings and emits（产生） a subset of those strings; the
  * mapping stage consumes strings and emits ints; the reduction stage consumes
  * those ints and computes the maximal value.
  *
@@ -72,8 +72,8 @@ import java.util.function.LongConsumer;
  * whether the stage accepts objects, ints, longs, or doubles.  Sink has entry
  * points for {@code accept(Object)}, {@code accept(int)}, etc, so that we do
  * not need a specialized interface for each primitive specialization.  (It
- * might be called a "kitchen sink" for this omnivorous tendency.)  The entry
- * point to the pipeline is the {@code Sink} for the filtering stage, which
+ * might be called a "kitchen sink"（厨房的水槽） for this omnivorous tendency（杂食的趋势）.)
+ * The entry point to the pipeline is the {@code Sink} for the filtering stage, which
  * sends some elements "downstream" -- into the {@code Sink} for the mapping
  * stage, which in turn sends integral values downstream into the {@code Sink}
  * for the reduction stage. The {@code Sink} implementations associated with a

@@ -183,6 +183,10 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     @SuppressWarnings("unchecked")
     public final <R> Stream<R> map(Function<? super P_OUT, ? extends R> mapper) {
         Objects.requireNonNull(mapper);
+        /**
+         * StatelessOp的匿名实现类，将中间操作连接起来构成一个新的流
+         * @param this 流的上游
+         */
         return new StatelessOp<P_OUT, R>(this, StreamShape.REFERENCE,
                                      StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
             @Override

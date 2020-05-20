@@ -664,8 +664,8 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
      * the provided {@code Sink}.
      *
      * @apiNote
-     * The implementation may use the {@code flags} parameter to optimize the
-     * sink wrapping.  For example, if the input is already {@code DISTINCT},
+     * The implementation may use the {@code flags} parameter to optimize（优化） the
+     * sink（水槽） wrapping（包装）.  For example, if the input is already {@code DISTINCT},
      * the implementation for the {@code Stream#distinct()} method could just
      * return the sink it was passed.
      *
