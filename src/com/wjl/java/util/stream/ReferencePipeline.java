@@ -552,6 +552,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
 
         /**
          * Constructor for the source stage of a Stream.
+         * 构造一个流的源头阶段对象
          *
          * @param source {@code Spliterator} describing the stream source
          * @param sourceFlags the source flags for the stream source, described

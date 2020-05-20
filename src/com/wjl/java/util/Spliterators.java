@@ -407,6 +407,8 @@ public final class Spliterators {
      * the <em>fail-fast</em> properties of the collection's iterator, and
      * implements {@code trySplit} to permit limited parallelism.
      *
+     * 用给定的集合的iterator创建一个分割迭代器，使用集合的大小作为源大小，包含快速失败和延迟绑定的特性
+     *
      * @param <T> Type of elements
      * @param c The collection
      * @param characteristics Characteristics of this spliterator's source or

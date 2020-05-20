@@ -33,14 +33,16 @@ import java.util.function.Supplier;
  * Abstract base class for "pipeline" classes, which are the core
  * implementations of the Stream interface and its primitive specializations.
  * Manages construction and evaluation of stream pipelines.
+ * 这是一个流管道的抽象基类，它是流的核心实现，用来创建和管理流管道
  *
- * <p>An {@code AbstractPipeline} represents an initial portion of a stream
- * pipeline, encapsulating a stream source and zero or more intermediate
+ * <p>An {@code AbstractPipeline} represents an initial portion（初始部分） of a stream
+ * pipeline, encapsulating（封装） a stream source and zero or more intermediate
  * operations.  The individual {@code AbstractPipeline} objects are often
  * referred to as <em>stages</em>, where each stage describes either the stream
  * source or an intermediate operation.
+ * AbstractPipeline 标示流的初始阶段，包含源和0个或多个中间操作，每个 AbstractPipeline 都代表一个阶段
  *
- * <p>A concrete intermediate stage is generally built from an
+ * <p>A concrete（具体的） intermediate stage is generally built from an
  * {@code AbstractPipeline}, a shape-specific pipeline class which extends it
  * (e.g., {@code IntPipeline}) which is also abstract, and an operation-specific
  * concrete class which extends that.  {@code AbstractPipeline} contains most of
@@ -52,6 +54,7 @@ import java.util.function.Supplier;
  * <p>After chaining a new intermediate operation, or executing a terminal
  * operation, the stream is considered to be consumed, and no more intermediate
  * or terminal operations are permitted on this stream instance.
+ * 在链接了新的中间操作后或是有一个终止操作，认为该流已经被消费，当前实例不能再做其他中间操作或是终止操作，流只能使用一次
  *
  * @implNote
  * <p>For sequential streams, and parallel streams without
@@ -63,6 +66,7 @@ import java.util.function.Supplier;
  * evaluated separately and the result used as the input to the next
  * segment.  In all cases, the source data is not consumed until a terminal
  * operation begins.
+ * 流是惰性的，没有终止操作，源数据不会被消耗
  *
  * @param <E_IN>  type of input elements
  * @param <E_OUT> type of output elements
@@ -77,12 +81,14 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
     /**
      * Backlink to the head of the pipeline chain (self if this is the source
      * stage).
+     * 流的源，如果是源阶段，则为它本身
      */
     @SuppressWarnings("rawtypes")
     private final AbstractPipeline sourceStage;
 
     /**
      * The "upstream" pipeline, or null if this is the source stage.
+     * 流的上游，如果为源阶段，则为空
      */
     @SuppressWarnings("rawtypes")
     private final AbstractPipeline previousStage;
@@ -90,12 +96,14 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
     /**
      * The operation flags for the intermediate operation represented by this
      * pipeline object.
+     * 中间操作标志
      */
     protected final int sourceOrOpFlags;
 
     /**
      * The next stage in the pipeline, or null if this is the last stage.
      * Effectively final at the point of linking to the next pipeline.
+     * 流的下一个阶段，如果为最后一个阶段，则为空
      */
     @SuppressWarnings("rawtypes")
     private AbstractPipeline nextStage;
@@ -104,6 +112,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
      * The number of intermediate operations between this pipeline object
      * and the stream source if sequential, or the previous stateful if parallel.
      * Valid at the point of pipeline preparation for evaluation.
+     * 中间操作的次数
      */
     private int depth;
 
@@ -120,6 +129,11 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
      * must be null. After the pipeline is consumed if non-null then is set to
      * null.
      */
+    /**
+     * 源头分割迭代器，仅在头部管道有效
+     * 如果它不为空，则 sourceSupplier 必须为空
+     * 在流被消费后，如果它不为空就置为空
+     */
     private Spliterator<?> sourceSpliterator;
 
     /**
@@ -127,10 +141,16 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
      * pipeline is consumed if non-null then {@code sourceSpliterator} must be
      * null. After the pipeline is consumed if non-null then is set to null.
      */
+    /**
+     * 源头提供者，仅在头部管道有效
+     * 如果它不为空，则 sourceSupplier 必须为空
+     * 在流被消费后，如果它不为空就置为空
+     */
     private Supplier<? extends Spliterator<?>> sourceSupplier;
 
     /**
      * True if this pipeline has been linked or consumed
+     * 如果已经被连接或者被消费，置为true
      */
     private boolean linkedOrConsumed;
 
@@ -145,6 +165,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
     /**
      * True if pipeline is parallel, otherwise the pipeline is sequential; only
      * valid for the source stage.
+     * 是否为并行，仅在源阶段有效
      */
     private boolean parallel;
 

@@ -45,9 +45,11 @@ public final class StreamSupport {
     /**
      * Creates a new sequential or parallel {@code Stream} from a
      * {@code Spliterator}.
+     * 根据 spliterator 创建一个串行或是并行的 stream。
      *
      * <p>The spliterator is only traversed, split, or queried for estimated
-     * size after the terminal operation of the stream pipeline commences.
+     * size after the terminal operation of the stream pipeline commences（开始）.
+     * 这个 spliterator 仅用于终止操作开始后的分割、转换和循环遍历。
      *
      * <p>It is strongly recommended the spliterator report a characteristic of
      * {@code IMMUTABLE} or {@code CONCURRENT}, or be
@@ -56,6 +58,7 @@ public final class StreamSupport {
      * to reduce the scope of potential interference with the source.  See
      * <a href="package-summary.html#NonInterference">Non-Interference</a> for
      * more details.
+     * 强烈建议 spliterator 包含 IMMUTABLE、CONCURRENT 或是延迟绑定的特性，减少操作开始后的不可预估风险
      *
      * @param <T> the type of stream elements
      * @param spliterator a {@code Spliterator} describing the stream elements
