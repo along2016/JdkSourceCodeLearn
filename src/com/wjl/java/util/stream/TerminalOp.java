@@ -37,6 +37,7 @@ import java.util.Spliterator;
  * <p>A {@code TerminalOp} must provide a sequential and parallel implementation
  * of the operation relative to a given stream source and set of intermediate
  * operations.
+ * TerminalOp 必须提供相对于给定流源和中间操作集的操作的串行和并行实现
  *
  * @param <E_IN> the type of input elements
  * @param <R>    the type of the result
@@ -57,6 +58,9 @@ interface TerminalOp<E_IN, R> {
      * limited subset of the stream flags defined in {@link StreamOpFlag}, and
      * these flags are combined with the previously combined stream and
      * intermediate operation flags for the pipeline.
+     *
+     * 获取操作的流标志。终止操作可以设置 StreamOpFlag 中定义的流标志的一个有限子集，
+     * 这些标志与之前合并的流和管道的中间操作标志相结合。
      *
      * @implSpec The default implementation returns zero.
      *

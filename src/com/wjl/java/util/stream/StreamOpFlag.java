@@ -319,9 +319,11 @@ enum StreamOpFlag {
     /**
      * Characteristic value signifying that an operation may short-circuit the
      * stream.
+     * 表示某一操作可能导致流短路的特征值
      * <p>
      * An intermediate operation can preserve or inject this value,
      * or a terminal operation can preserve or inject this value.
+     * 中间操作可以保留或注入这个值，或者终止操作可以保留或注入这个值
      */
     // 12, 0x01000000
     SHORT_CIRCUIT(12,
@@ -340,11 +342,13 @@ enum StreamOpFlag {
     enum Type {
         /**
          * The flag is associated with spliterator characteristics.
+         * 该标志与 spliterator 特征相关联
          */
         SPLITERATOR,
 
         /**
          * The flag is associated with stream flags.
+         * 该标志与流标志相关联
          */
         STREAM,
 
@@ -361,6 +365,7 @@ enum StreamOpFlag {
         /**
          * The flag is associated with terminal operation flags that are
          * propagated upstream across the last stateful operation boundary
+         * 该标志与终端操作标志相关联，终止操作标志向上流传播，跨越最后一个有状态操作边界
          */
         UPSTREAM_TERMINAL_OP
     }
@@ -544,6 +549,7 @@ enum StreamOpFlag {
 
     /**
      * The bit mask for upstream terminal operation flags.
+     * 上游终止操作标志的位掩码
      */
     static final int UPSTREAM_TERMINAL_OP_MASK = createMask(Type.UPSTREAM_TERMINAL_OP);
 

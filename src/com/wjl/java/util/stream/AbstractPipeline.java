@@ -538,12 +538,24 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
         return StreamOpFlag.ORDERED.isKnown(combinedFlags);
     }
 
+    /**
+     * sink的包装，每个sink代表一个阶段，或者说是一个中间操作，这里将每一步的中间操作拿到并执行得到返回结果
+     *
+     * 这里对操作深度举一个例子，每个中间操作对应一个操作深度
+     * list.stream().filter(e -> true).map(e -> e).collection();
+     *               操作深度1      操作深度2
+     *@param sink 输出值
+     */
     @Override
     @SuppressWarnings("unchecked")
     final <P_IN> Sink<P_IN> wrapSink(Sink<E_OUT> sink) {
         Objects.requireNonNull(sink);
 
-        for ( @SuppressWarnings("rawtypes") AbstractPipeline p=AbstractPipeline.this; p.depth > 0; p=p.previousStage) {
+        // 获取当前管道的操作深度，每个中间操作对应一个操作深度，如果它的操作深度大于0，
+        // 执行以下循环，执行完毕将当前对象指向到前一阶段
+        for (@SuppressWarnings("rawtypes") AbstractPipeline p = AbstractPipeline.this;
+             p.depth > 0; p = p.previousStage) {
+            // 这里对每一步的中间操作进行调用，实现类是我们之前分析的中间步骤，动作由我们自己传入；
             sink = p.opWrapSink(p.previousStage.combinedFlags, sink);
         }
         return (Sink<P_IN>) sink;
