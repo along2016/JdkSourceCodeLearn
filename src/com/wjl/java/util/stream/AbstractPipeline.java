@@ -214,6 +214,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
     /**
      * Constructor for appending an intermediate operation stage onto an
      * existing pipeline.
+     * 将中间操作追加到现有管道上的一个构造函数
      *
      * @param previousStage the upstream pipeline stage
      * @param opFlags the operation flags for the new stage, described in
@@ -222,15 +223,20 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
     AbstractPipeline(AbstractPipeline<?, E_IN, ?> previousStage, int opFlags) {
         if (previousStage.linkedOrConsumed)
             throw new IllegalStateException(MSG_STREAM_LINKED);
+        // 是否被链接
         previousStage.linkedOrConsumed = true;
+        // 前一阶段的下一阶段指向当前对象
         previousStage.nextStage = this;
 
+        // 前一阶段指向upStream
         this.previousStage = previousStage;
         this.sourceOrOpFlags = opFlags & StreamOpFlag.OP_MASK;
         this.combinedFlags = StreamOpFlag.combineOpFlags(opFlags, previousStage.combinedFlags);
+        // 流源
         this.sourceStage = previousStage.sourceStage;
         if (opIsStateful())
             sourceStage.sourceAnyStateful = true;
+        // 流的操作深度 一个中间操作对应一个操作深度
         this.depth = previousStage.depth + 1;
     }
 
@@ -493,6 +499,9 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
         return sink;
     }
 
+    /**
+     * 这里对返回结果进行了循环调用， spliterator.forEachRemaining有很多具体的实现，例如ArrayList等
+     */
     @Override
     final <P_IN> void copyInto(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator) {
         Objects.requireNonNull(wrappedSink);

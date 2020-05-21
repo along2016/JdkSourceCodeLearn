@@ -184,11 +184,18 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     public final <R> Stream<R> map(Function<? super P_OUT, ? extends R> mapper) {
         Objects.requireNonNull(mapper);
         /**
-         * StatelessOp的匿名实现类，将中间操作连接起来构成一个新的流
-         * @param this 流的上游
+         * 1.构建一个中间连接操作，传入当前流(upstream)和一些特性值，这里会在构造时被调用,
+         * 就比如我们构造了一个类，但是构造了不代表它里面的方法都会被触发，这就是流的惰性调用原理
          */
         return new StatelessOp<P_OUT, R>(this, StreamShape.REFERENCE,
                                      StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+            /**
+             *2.它会传入一个 Sink<R> 作为返回的类型,这个 sink 就是downstream，它代表了下游收集器的类型，
+             * 这里是map，它会根据你给定的动作，将输入值映射为返回值，如果是 filter 就会执行过滤操作，
+             * 返回值会被添加到下游收集器中，作为下一步操作的数据提供；
+             * 通过这里我们就能得出为什么 stream 调用是短路操作，比如这个 map 的上游是 filter，
+             * 如果这个数据不符合 filter 过滤条件，就会被排除掉，所以作为下游的 map 也不会执行。
+             */
             @Override
             Sink<P_OUT> opWrapSink(int flags, Sink<R> sink) {
                 return new Sink.ChainedReference<P_OUT, R>(sink) {

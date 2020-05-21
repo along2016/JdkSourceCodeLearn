@@ -31,7 +31,7 @@ import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
 /**
- * An extension of {@link Consumer} used to conduct（组织） values through the stages of
+ * An extension of {@link Consumer} used to conduct（处理） values through the stages of
  * a stream pipeline, with additional methods to manage size information,
  * control flow, etc.  Before calling the {@code accept()} method on a
  * {@code Sink} for the first time, you must first call the {@code begin()}
@@ -44,11 +44,19 @@ import java.util.function.LongConsumer;
  * method), which a source can poll before sending more data to the
  * {@code Sink}.
  *
+ * 它是Consumer的一个扩展，用于在流管道的各个阶段来处理值，提供了额外的方法来管理大小等。
+ * 在首次调用 accept() 方法之前，必须先调用 begin() 方法来通知数据要来了（通知 sink 有多少数据正在到来），
+ * 当所有数据发送完毕后，必须调用 end() 方法。
+ * 在调用 end() 之后，如果不再次调用 begin()方法，就不能调用 accept() 方法，也就是说Sink可以重用；
+ * Sink 还提供了一种机制，通过这种机制，Sink可以协作地发出信号，表示它不希望接收更多的数据 (cancellationrequired() 方法)，
+ * 源可以在向 Sink  发送更多数据之前进行轮询。
+ *
  * <p>A sink may be in one of two states: an initial state and an active state.
  * It starts out in the initial state; the {@code begin()} method transitions（转换）
  * it to the active state, and the {@code end()} method transitions it back into
  * the initial state, where it can be re-used.  Data-accepting methods (such as
  * {@code accept()} are only valid in the active state.
+ * Sink 有初始状态和激活状态，begin() 会转换为激活状态，end() 之后会变成初始状态，accept() 必须是 Sink 在激活状态。
  *
  * @apiNote
  * A stream pipeline consists of a source, zero or more intermediate stages

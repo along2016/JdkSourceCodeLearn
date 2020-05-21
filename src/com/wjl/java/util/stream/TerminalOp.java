@@ -29,7 +29,7 @@ import java.util.Spliterator;
 /**
  * An operation in a stream pipeline that takes a stream as input and produces
  * a result or side-effect.  A {@code TerminalOp} has an input type and stream
- * shape, and a result type.  A {@code TerminalOp} also has a set of
+ * shape（流形状）, and a result type.  A {@code TerminalOp} also has a set of
  * <em>operation flags</em> that describes how the operation processes elements
  * of the stream (such as short-circuiting or respecting encounter order; see
  * {@link StreamOpFlag}).
@@ -77,6 +77,9 @@ interface TerminalOp<E_IN, R> {
      * @param spliterator the source spliterator
      * @return the result of the evaluation
      */
+    /**
+     * 并行操作，默认串行
+     */
     default <P_IN> R evaluateParallel(PipelineHelper<E_IN> helper,
                                       Spliterator<P_IN> spliterator) {
         if (Tripwire.ENABLED)
@@ -92,6 +95,11 @@ interface TerminalOp<E_IN, R> {
      * @param helper the pipeline helper
      * @param spliterator the source spliterator
      * @return the result of the evaluation
+     */
+    /**
+     * 顺序执行所有中间操作
+     * @param helper 持有上游中间操作
+     * @param spliterator 源
      */
     <P_IN> R evaluateSequential(PipelineHelper<E_IN> helper,
                                 Spliterator<P_IN> spliterator);
