@@ -141,6 +141,11 @@ public interface BaseStream<T, S extends BaseStream<T, S>>
      * first exception, since an exception cannot suppress itself.)  May
      * return itself.
      *
+     * 返回带有附带关闭处理程序的等效流。
+     * 关闭处理程序在流调用 close() 方法的时候按照它们被添加进来的顺序执行。
+     * 所有的关闭处理程序都会执行，即使有的程序抛异常。
+     *
+     *
      * <p>This is an <a href="package-summary.html#StreamOps">intermediate
      * operation</a>.
      *

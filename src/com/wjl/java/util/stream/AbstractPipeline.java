@@ -1,26 +1,6 @@
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
  */
 package java.util.stream;
 
@@ -263,6 +243,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
 
     /**
      * Collect the elements output from the pipeline stage.
+     * 收集从管道阶段中输出的元素
      *
      * @param generator the array generator to be used to create array instances
      * @return a flat array-backed Node that holds the collected output elements
@@ -362,7 +343,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
         return (S) this;
     }
 
-    // Primitive specialization use co-variant overrides, hence is not final
+    // Primitive specialization use co-variant（协变） overrides, hence is not final
     @Override
     @SuppressWarnings("unchecked")
     public Spliterator<E_OUT> spliterator() {
