@@ -35,20 +35,34 @@ import sun.misc.SharedSecrets;
  * are represented internally as arrays.  This representation is extremely
  * compact and efficient.
  *
+ * 与枚举类型一起使用的专用 Map 实现。枚举 map 中所有键都必须来自单个枚举类型，
+ * 该枚举类型在创建 map 时显式或隐式地指定。枚举 map 在内部表示为数组。
+ * 此表示形式非常紧凑且高效。
+ *
  * <p>Enum maps are maintained in the <i>natural order</i> of their keys
  * (the order in which the enum constants are declared).  This is reflected
  * in the iterators returned by the collections views ({@link #keySet()},
  * {@link #entrySet()}, and {@link #values()}).
+ *
+ * Enum map 按照键的自然顺序进行维护(enum 常量声明的顺序)。
+ * 这反映在集合视图（keySet()、{entrySet() 和 values()）返回的迭代器中。
  *
  * <p>Iterators returned by the collection views are <i>weakly consistent</i>:
  * they will never throw {@link ConcurrentModificationException} and they may
  * or may not show the effects of any modifications to the map that occur while
  * the iteration is in progress.
  *
+ * 集合视图返回的迭代器是弱一致的：它从不抛出 ConcurrentModificationException，
+ * 它们可能会也可能不会显示迭代过程中发生的对 map 的任何修改的影响。
+ *
  * <p>Null keys are not permitted.  Attempts to insert a null key will
  * throw {@link NullPointerException}.  Attempts to test for the
  * presence of a null key or to remove one will, however, function properly.
  * Null values are permitted.
+ *
+ * 不允许空键。尝试插入空键将抛出NullPointerException。
+ * 但是，尝试测试是否存在空键或删除空键将正常工作。
+ * 空值是允许的。
 
  * <P>Like most collection implementations <tt>EnumMap</tt> is not
  * synchronized. If multiple threads access an enum map concurrently, and at
@@ -56,8 +70,13 @@ import sun.misc.SharedSecrets;
  * externally.  This is typically accomplished by synchronizing on some
  * object that naturally encapsulates the enum map.  If no such object exists,
  * the map should be "wrapped" using the {@link Collections#synchronizedMap}
- * method.  This is best done at creation time, to prevent accidental
+ * method. This is best done at creation time, to prevent accidental
  * unsynchronized access:
+ *
+ * 和大多数的集合实现一样，EnumMap 不是同步的。
+ * 如果多线程并行访问一个 enum map，并且至少一个线程修改了 map，那就要进行外部同步。
+ * 这通常是通过在自然封装 enum map 的某个对象上进行同步来实现的。如果没有这种对象，就要用 Collections 类的 synchronizedMap()方法来包装这个 map。
+ * 最好在创建时间就这样做来防止意外的非同步访问。
  *
  * <pre>
  *     Map&lt;EnumKey, V&gt; m

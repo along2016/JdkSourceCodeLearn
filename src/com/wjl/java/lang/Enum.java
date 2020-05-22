@@ -35,7 +35,7 @@ import java.io.ObjectStreamException;
  * This is the common base class of all Java language enumeration types.
  *
  * More information about enums, including descriptions of the
- * implicitly declared methods synthesized by the compiler, can be
+ * implicitly declared methods synthesized（合成） by the compiler, can be
  * found in section 8.9 of
  * <cite>The Java&trade; Language Specification</cite>.
  *
@@ -43,6 +43,9 @@ import java.io.ObjectStreamException;
  * or as the type of the keys in a map, specialized and efficient
  * {@linkplain java.util.EnumSet set} and {@linkplain
  * java.util.EnumMap map} implementations are available.
+ *
+ * 注意，当使用枚举类型作为集合的类型或映射中的键的类型时，专门化且高效的{@linkplain java.util.EnumSet}
+ * 和 {@linkplain java.util.EnumMap} 实现是可用的。
  *
  * @param <E> The enum type subclass
  * @author  Josh Bloch
@@ -78,12 +81,12 @@ public abstract class Enum<E extends Enum<E>>
     }
 
     /**
-     * The ordinal of this enumeration constant (its position
+     * The ordinal（序号） of this enumeration constant (its position
      * in the enum declaration, where the initial constant is assigned
      * an ordinal of zero).
      *
      * Most programmers will have no use for this field.  It is designed
-     * for use by sophisticated enum-based data structures, such as
+     * for use by sophisticated（复杂的） enum-based data structures, such as
      * {@link java.util.EnumSet} and {@link java.util.EnumMap}.
      */
     private final int ordinal;
@@ -96,6 +99,7 @@ public abstract class Enum<E extends Enum<E>>
      * Most programmers will have no use for this method.  It is
      * designed for use by sophisticated enum-based data structures, such
      * as {@link java.util.EnumSet} and {@link java.util.EnumMap}.
+     * 大多数程序员不会使用这种方法。它是为基于枚举的复杂的数据结构设计的，比如 EnumSet 和 EnumMap
      *
      * @return the ordinal of this enumeration constant
      */
@@ -140,7 +144,7 @@ public abstract class Enum<E extends Enum<E>>
      *          enum constant.
      */
     public final boolean equals(Object other) {
-        return this==other;
+        return this == other;
     }
 
     /**
@@ -189,6 +193,8 @@ public abstract class Enum<E extends Enum<E>>
      * (The value returned by this method may differ from the one returned
      * by the {@link Object#getClass} method for enum constants with
      * constant-specific class bodies.)
+     *
+     * 返回与该枚举常量的枚举类型对应的类对象。
      *
      * @return the Class object corresponding to this enum constant's
      *     enum type
