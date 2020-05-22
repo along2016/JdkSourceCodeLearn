@@ -112,6 +112,7 @@ abstract class PipelineHelper<P_OUT> {
      * stages in it (see {@link StreamOpFlag#SHORT_CIRCUIT}), the
      * {@link Sink#cancellationRequested()} is checked after each
      * element, stopping if cancellation is requested.
+     * 将从 Spliterator 获得的元素推入提供的 Sink。
      *
      * @implSpec
      * This method conforms to the {@code Sink} protocol of calling
