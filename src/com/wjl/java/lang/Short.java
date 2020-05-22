@@ -63,7 +63,7 @@ public final class Short extends Number implements Comparable<Short> {
 
     /**
      * Returns a new {@code String} object representing the
-     * specified {@code short}. The radix is assumed to be 10.
+     * specified {@code short}. The radix is assumed to be 10（假设基数为10）.
      *
      * @param s the {@code short} to be converted
      * @return the string representation of the specified {@code short}
@@ -216,9 +216,11 @@ public final class Short extends Number implements Comparable<Short> {
      * {@code short} value.
      * If a new {@code Short} instance is not required, this method
      * should generally be used in preference to the constructor
-     * {@link #Short(short)}, as this method is likely to yield
+     * {@link #Short(short)}, as this method is likely to yield（产出）
      * significantly better space and time performance by caching
      * frequently requested values.
+     * 如果不需要新的 Short 实例，则通常应优先使用此方法，而不应使用构造函数{@link #Short(Short)}，
+     * 因为此方法通过缓存频繁请求的值可能会显著提高空间和时间性能。
      *
      * This method will always cache values in the range -128 to 127,
      * inclusive, and may cache other values outside of this range.
