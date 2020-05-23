@@ -99,6 +99,7 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
     implements java.io.Serializable, Cloneable
 {
     /**
+     * key 类型
      * The <tt>Class</tt> object for the enum type of all the keys of this map.
      *
      * @serial
@@ -106,11 +107,13 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
     private final Class<K> keyType;
 
     /**
+     * key 数组
      * All of the values comprising K.  (Cached for performance.)
      */
     private transient K[] keyUniverse;
 
     /**
+     * value 数组
      * Array representation of this map.  The ith element is the value
      * to which universe[i] is currently mapped, or null if it isn't
      * mapped to anything, or NULL if it's mapped to null.

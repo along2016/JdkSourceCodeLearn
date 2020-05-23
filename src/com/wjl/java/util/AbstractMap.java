@@ -142,10 +142,10 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
      */
     public boolean containsKey(Object key) {
         Iterator<Map.Entry<K,V>> i = entrySet().iterator();
-        if (key==null) {
+        if (key == null) {
             while (i.hasNext()) {
                 Entry<K,V> e = i.next();
-                if (e.getKey()==null)
+                if (e.getKey() == null)
                     return true;
             }
         } else {
