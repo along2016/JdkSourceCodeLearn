@@ -32,6 +32,12 @@ package java.util;
  * object, every key is associated with at most one value. Given a
  * <tt>Dictionary</tt> and a key, the associated element can be looked up.
  * Any non-<code>null</code> object can be used as a key and as a value.
+ *
+ *  Dictionary 类是任何将键映射到值的类（例如 Hashtable）的抽象父类。
+ *  每个键和值都是一个对象。在任何一个 Dictionary 对象中，每个键最多与一个值关联。
+ *  给定一个 Dictionary 和一个键，就可以查找相关联的元素。任何非 null 对象都可以用作键和值。
+ *
+ *
  * <p>
  * As a rule, the <code>equals</code> method should be used by
  * implementations of this class to decide if two keys are the same.
@@ -51,6 +57,8 @@ class Dictionary<K,V> {
     /**
      * Sole constructor.  (For invocation by subclass constructors, typically
      * implicit.)
+     *
+     * 唯一的构造函数。（用于子类构造函数调用，通常是隐式的）
      */
     public Dictionary() {
     }
