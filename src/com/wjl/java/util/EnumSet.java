@@ -38,6 +38,10 @@ import sun.misc.SharedSecrets;
  * operations (such as <tt>containsAll</tt> and <tt>retainAll</tt>) should
  * run very quickly if their argument is also an enum set.
  *
+ * 与枚举类型一起使用的专用 Set 实现。枚举 set 中所有元素都必须来自单个枚举类型，
+ * 该枚举类型在创建 set 时显式或隐式地指定。枚举 set 在内部表示为位向量。
+ * 此表示形式非常紧凑且高效。
+ *
  * <p>The iterator returned by the <tt>iterator</tt> method traverses the
  * elements in their <i>natural order</i> (the order in which the enum
  * constants are declared).  The returned iterator is <i>weakly
@@ -45,10 +49,17 @@ import sun.misc.SharedSecrets;
  * and it may or may not show the effects of any modifications to the set that
  * occur while the iteration is in progress.
  *
+ * 由 iterator 方法返回的迭代器按其自然顺序遍历这些元素（该顺序是声明枚举常量的顺序）。
+ * 返回的迭代器是弱一致的：它从不抛出 ConcurrentModificationException，
+ * 也不一定显示在迭代进行时发生的任何 set 修改的效果。
+ *
  * <p>Null elements are not permitted.  Attempts to insert a null element
  * will throw {@link NullPointerException}.  Attempts to test for the
  * presence of a null element or to remove one will, however, function
  * properly.
+ *
+ * 不允许使用 null 元素。试图插入 null 元素将抛出 NullPointerException。
+ * 但是，试图测试是否存在 null 元素或移除 null 元素将正常工作。
  *
  * <P>Like most collection implementations, <tt>EnumSet</tt> is not
  * synchronized.  If multiple threads access an enum set concurrently, and at
@@ -58,6 +69,12 @@ import sun.misc.SharedSecrets;
  * the set should be "wrapped" using the {@link Collections#synchronizedSet}
  * method.  This is best done at creation time, to prevent accidental
  * unsynchronized access:
+ *
+ * 像大多数 collection 实现一样，EnumSet 是不同步的。如果多个线程同时访问一个枚举 set，
+ * 并且至少有一个线程修改该 set，则此枚举 set 在外部应该是同步的。
+ * 这通常是通过对自然封装该枚举 set 的对象执行同步操作来完成的。
+ * 如果不存在这样的对象，则应该使用 Collections.synchronizedSet(java.util.Set) 方法来“包装”该 set。
+ * 最好在创建时完成这一操作，以防止意外的非同步访问：
  *
  * <pre>
  * Set&lt;MyEnum&gt; s = Collections.synchronizedSet(EnumSet.noneOf(MyEnum.class));
@@ -120,6 +137,7 @@ public abstract class EnumSet<E extends Enum<E>> extends AbstractSet<E>
     /**
      * Creates an enum set containing all of the elements in the specified
      * element type.
+     * 创建一个包含指定元素类型的所有元素的枚举 set。
      *
      * @param <E> The class of the elements in the set
      * @param elementType the class object of the element type for this enum
@@ -186,8 +204,10 @@ public abstract class EnumSet<E extends Enum<E>> extends AbstractSet<E>
      * set, initially containing all the elements of this type that are
      * <i>not</i> contained in the specified set.
      *
+     * 创建一个其元素类型与指定枚举 set 相同的枚举 set，最初包含指定 set 中所不包含的此类型的所有元素。
+     *
      * @param <E> The class of the elements in the enum set
-     * @param s the enum set from whose complement to initialize this enum set
+     * @param s the enum set from whose complement（补足） to initialize this enum set
      * @return The complement of the specified set in this set
      * @throws NullPointerException if <tt>s</tt> is null
      */

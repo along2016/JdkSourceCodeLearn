@@ -74,9 +74,9 @@ import sun.misc.SharedSecrets;
  * unsynchronized access:
  *
  * 和大多数的集合实现一样，EnumMap 不是同步的。
- * 如果多线程并行访问一个 enum map，并且至少一个线程修改了 map，那就要进行外部同步。
- * 这通常是通过在自然封装 enum map 的某个对象上进行同步来实现的。如果没有这种对象，就要用 Collections 类的 synchronizedMap()方法来包装这个 map。
- * 最好在创建时间就这样做来防止意外的非同步访问。
+ * 如果多线程并行访问一个 enum map，并且至少一个线程修改了 map，则此枚举 map 在外部应该是同步的。
+ * 这通常是通过在自然封装 enum map 的某个对象上进行同步来实现的。如果不存在这种对象，就要用 Collections 类的 synchronizedMap()方法来包装这个 map。
+ * 最好在创建时完成这一操作，以防止意外的非同步访问。
  *
  * <pre>
  *     Map&lt;EnumKey, V&gt; m
