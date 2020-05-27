@@ -35,9 +35,14 @@ import java.util.function.BiFunction;
  * This class implements a hash table, which maps keys to values. Any
  * non-<code>null</code> object can be used as a key or as a value. <p>
  *
+ * 这个类实现了一个哈希表，它将键映射到值。任何非空的对象都能用作键或值。
+ *
  * To successfully store and retrieve objects from a hashtable, the
  * objects used as keys must implement the <code>hashCode</code>
  * method and the <code>equals</code> method. <p>
+ *
+ * 为了能成功地在 hashtable 中存储或者获取对象，用作键的对象必须实现 hashtable() 方法
+ * 和 equals() 方法。
  *
  * An instance of <code>Hashtable</code> has two parameters that affect its
  * performance: <i>initial capacity</i> and <i>load factor</i>.  The
@@ -51,10 +56,20 @@ import java.util.function.BiFunction;
  * the implementation.  The exact details as to when and whether the rehash
  * method is invoked are implementation-dependent.<p>
  *
+ * Hashtable 的实例有两个参数影响它的性能：初始容量和负载因子。
+ * 容量是哈希表中的桶数，初始容量就是创建哈希表时的容量。
+ * 注意，哈希表是打开的：在“哈希冲突”的情况下，一个 bucket 存储多个条目，这些条目必须按顺序搜索。
+ * 负载因子是对哈希表在其容量自动增加之前允许达到的满度的度量。
+ * 初始容量和负载因子参数只是实现的提示。
+ * 关于何时以及是否调用 rehash 方法的确切细节依赖于实现。
+ *
  * Generally, the default load factor (.75) offers a good tradeoff between
  * time and space costs.  Higher values decrease the space overhead but
  * increase the time cost to look up an entry (which is reflected in most
  * <tt>Hashtable</tt> operations, including <tt>get</tt> and <tt>put</tt>).<p>
+ *
+ * 通常，默认的负载因子(.75)在时间和空间成本之间提供了很好的权衡。
+ * 更高的值减少了空间开销，但是增加了查找条目的时间成本(这反映在大多数 Hashtable 操作中，包括 get 和 put)
  *
  * The initial capacity controls a tradeoff between wasted space and the
  * need for <code>rehash</code> operations, which are time-consuming.
@@ -63,10 +78,16 @@ import java.util.function.BiFunction;
  * <tt>Hashtable</tt> will contain divided by its load factor.  However,
  * setting the initial capacity too high can waste space.<p>
  *
+ * 初始容量控制了空间浪费和需要 rehash 操作之间的权衡，后者非常耗时。
+ * 如果初始容量大于 Hashtable 包含的最大条目数除以其负载因子，则不会发生任何 rehash 操作。
+ * 但是，将初始容量设置得过高会浪费空间。
+ *
  * If many entries are to be made into a <code>Hashtable</code>,
  * creating it with a sufficiently large capacity may allow the
  * entries to be inserted more efficiently than letting it perform
  * automatic rehashing as needed to grow the table. <p>
+ *
+ *
  *
  * This example creates a hashtable of numbers. It uses the names of
  * the numbers as keys:
