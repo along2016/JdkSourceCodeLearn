@@ -117,6 +117,9 @@ public class AtomicBoolean implements java.io.Serializable {
      *
      * weakCompareAndSet 可能会错误地失败，并且不提供排序保证，因此很少是 compareAndSet 的合适替代。
      *
+     * 注：本类中 weakCompareAndSet 方法和 compareAndSet 方法的实现方式相同，weakCompareAndSet 是留给
+     * 客户端程序员自己重写的。
+     *
      * @param expect the expected value
      * @param update the new value
      * @return {@code true} if successful
@@ -129,6 +132,7 @@ public class AtomicBoolean implements java.io.Serializable {
 
     /**
      * Unconditionally sets to the given value.
+     * 无条件地设置为给定值。
      *
      * @param newValue the new value
      */
@@ -138,6 +142,7 @@ public class AtomicBoolean implements java.io.Serializable {
 
     /**
      * Eventually sets to the given value.
+     * 最终设置为给定的值。
      *
      * @param newValue the new value
      * @since 1.6
@@ -149,6 +154,7 @@ public class AtomicBoolean implements java.io.Serializable {
 
     /**
      * Atomically sets to the given value and returns the previous value.
+     * 自动设置为给定值并返回前一个值。
      *
      * @param newValue the new value
      * @return the previous value

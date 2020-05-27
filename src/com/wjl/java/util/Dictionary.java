@@ -37,7 +37,6 @@ package java.util;
  *  每个键和值都是一个对象。在任何一个 Dictionary 对象中，每个键最多与一个值关联。
  *  给定一个 Dictionary 和一个键，就可以查找相关联的元素。任何非 null 对象都可以用作键和值。
  *
- *
  * <p>
  * As a rule, the <code>equals</code> method should be used by
  * implementations of this class to decide if two keys are the same.
