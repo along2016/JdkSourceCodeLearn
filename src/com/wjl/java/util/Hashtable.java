@@ -83,11 +83,12 @@ import java.util.function.BiFunction;
  * 但是，将初始容量设置得过高会浪费空间。
  *
  * If many entries are to be made into a <code>Hashtable</code>,
- * creating it with a sufficiently large capacity may allow the
+ * creating it with a sufficiently（足够的） large capacity may allow the
  * entries to be inserted more efficiently than letting it perform
  * automatic rehashing as needed to grow the table. <p>
  *
- *
+ * 如果要将许多条目放入一个散列表中，那么用足够大的容量创建它可能会比
+ * 让它根据需要执行自动重新散列以增加表的大小来插入条目更有效。
  *
  * This example creates a hashtable of numbers. It uses the names of
  * the numbers as keys:
@@ -116,6 +117,12 @@ import java.util.function.BiFunction;
  * The Enumerations returned by Hashtable's keys and elements methods are
  * <em>not</em> fail-fast.
  *
+ * 这个类的所有“集合视图方法”返回的集合的 iterator() 方法返回的迭代器是快速失败的：
+ * 如果在迭代器创建之后的任何时候，以任何方式(除了通过迭代器自己的 remove 方法)对 Hashtable 进行结构修改，
+ * 迭代器将抛出 ConcurrentModificationException。
+ * 因此，在面对并发修改时，迭代器会快速而干净地失败，而不是在将来某个不确定的时间冒任意的、不确定的行为的风险。
+ * Hashtable 的键和元素方法返回的枚举不是快速失败。
+ *
  * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
  * as it is, generally speaking, impossible to make any hard guarantees in the
  * presence of unsynchronized concurrent modification.  Fail-fast iterators
@@ -123,6 +130,10 @@ import java.util.function.BiFunction;
  * Therefore, it would be wrong to write a program that depended on this
  * exception for its correctness: <i>the fail-fast behavior of iterators
  * should be used only to detect bugs.</i>
+ *
+ * 注意，迭代器的快速失败行为不能得到保证，因为通常来说，在存在非同步并发修改的情况下，不可能做出任何硬性保证。
+ * 快速失败迭代器在最大努力的基础上抛出 ConcurrentModificationException。
+ * 因此，编写一个依赖于此异常的正确性的程序是错误的：迭代器的快速失败行为应该只用于检测错误。
  *
  * <p>As of the Java 2 platform v1.2, this class was retrofitted to
  * implement the {@link Map} interface, making it a member of the
@@ -135,6 +146,10 @@ import java.util.function.BiFunction;
  * highly-concurrent implementation is desired, then it is recommended
  * to use {@link java.util.concurrent.ConcurrentHashMap} in place of
  * {@code Hashtable}.
+ *
+ * Hashtable 是同步的。
+ * 如果不需要线程安全的实现，则推荐使用 HashMap 代替 Hashtable。
+ * 如果需要线程安全的高并发实现，那么建议使用{@link java.util.concurrent.ConcurrentHashMap} 代替 Hashtable。
  *
  * @author  Arthur van Hoff
  * @author  Josh Bloch
