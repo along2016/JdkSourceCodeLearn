@@ -142,7 +142,7 @@ public class AtomicBoolean implements java.io.Serializable {
 
     /**
      * Eventually sets to the given value.
-     * 最终设置为给定的值。
+     * 最终设定为给定值。
      *
      * @param newValue the new value
      * @since 1.6
