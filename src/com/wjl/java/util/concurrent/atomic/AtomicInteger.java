@@ -49,8 +49,8 @@ import sun.misc.Unsafe;
  * deal with numerically-based classes.
  *
  * 一个可以自动更新的 int 值。有关原子变量属性的描述，请参阅 java.util.concurrent.atomic 包规范。
- * AtomicInteger 类可用于自增长计数器的应用程序中，但不能作为 java.lang.Boolean 的替代。
- * 但是，这个类确实继承了 Number 以允许通过处理基于数字类的工具和实用程序的统一访问。
+ * AtomicInteger 类可用于自增长计数器的应用程序中，但不能作为 java.lang.Integer 的替代。
+ * 但是，该类确实扩展了 Number 以允许处理数字类的工具和实用程序进行统一访问。
  *
  * @since 1.5
  * @author Doug Lea

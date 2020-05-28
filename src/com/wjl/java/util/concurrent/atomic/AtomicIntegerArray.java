@@ -43,6 +43,9 @@ import sun.misc.Unsafe;
  * See the {@link java.util.concurrent.atomic} package
  * specification for description of the properties of atomic
  * variables.
+ *
+ * 元素可以原子更新的数组。
+ *
  * @since 1.5
  * @author Doug Lea
  */
