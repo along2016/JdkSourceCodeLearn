@@ -48,6 +48,10 @@ import sun.misc.Unsafe;
  * {@code Number} to allow uniform access by tools and utilities that
  * deal with numerically-based classes.
  *
+ * 一个可以自动更新的 int 值。有关原子变量属性的描述，请参阅 java.util.concurrent.atomic 包规范。
+ * AtomicInteger 类可用于自增长计数器的应用程序中，但不能作为 java.lang.Boolean 的替代。
+ * 但是，这个类确实继承了 Number 以允许通过处理基于数字类的工具和实用程序的统一访问。
+ *
  * @since 1.5
  * @author Doug Lea
 */
@@ -211,6 +215,9 @@ public class AtomicInteger extends Number implements java.io.Serializable {
      * function should be side-effect-free, since it may be re-applied
      * when attempted updates fail due to contention among threads.
      *
+     * 使用应用给定函数的结果自动更新当前值，返回以前的值。
+     * 该函数应该是无副作用的，因为当尝试的更新由于线程间的争用而失败时，它可能会被重新应用。
+     *
      * @param updateFunction a side-effect-free function
      * @return the previous value
      * @since 1.8
@@ -229,6 +236,9 @@ public class AtomicInteger extends Number implements java.io.Serializable {
      * applying the given function, returning the updated value. The
      * function should be side-effect-free, since it may be re-applied
      * when attempted updates fail due to contention among threads.
+     *
+     * 使用应用给定函数的结果自动更新当前值，返回更新的值。
+     * 该函数应该是无副作用的，因为当尝试的更新由于线程间的争用而失败时，它可能会被重新应用。
      *
      * @param updateFunction a side-effect-free function
      * @return the updated value
