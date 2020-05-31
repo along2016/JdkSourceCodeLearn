@@ -43,6 +43,8 @@ import java.util.Collection;
  * {@code synchronized} methods and statements, but with extended
  * capabilities.
  *
+ * 可重入互斥 Lock 具有与使用 synchronized 方法和语句访问的隐式监视锁相同的基本行为和语义，但具有扩展功能。
+ *
  * <p>A {@code ReentrantLock} is <em>owned</em> by the thread last
  * successfully locking, but not yet unlocking it. A thread invoking
  * {@code lock} will return, successfully acquiring the lock, when
@@ -50,6 +52,11 @@ import java.util.Collection;
  * immediately if the current thread already owns the lock. This can
  * be checked using methods {@link #isHeldByCurrentThread}, and {@link
  * #getHoldCount}.
+ *
+ * ReentrantLock 由最后一次成功锁定但尚未解锁它的线程所拥有。
+ * 当锁不被另一个线程拥有时，调用 lock 的线程将返回并成功获取锁。
+ * 如果当前线程已经拥有锁，该方法将立即返回。
+ * 这可以通过 isHeldByCurrentThread 和 getHoldCount 方法进行检验。
  *
  * <p>The constructor for this class accepts an optional
  * <em>fairness</em> parameter.  When set {@code true}, under
@@ -67,6 +74,14 @@ import java.util.Collection;
  * Also note that the untimed {@link #tryLock()} method does not
  * honor the fairness setting. It will succeed if the lock
  * is available even if other threads are waiting.
+ *
+ * 这个类的构造函数接受一个可选的 fairness 参数。
+ * 当设置为 true 时，在争用状态下，等待时间最长的线程获取锁。否则，此锁不保证任何特定的访问顺序。
+ * 被多个线程访问的使用公平锁的程序可能会比那些使用默认设置的程序表现出较低的总体吞吐量，
+ * 但是在获得锁和保证不会饿死方面的时间差异更小。
+ * 但是请注意，锁的公平性并不保证线程调度的公平性。因此，使用公平锁的多个线程中的一个可能会连续多次获得它，
+ * 而其他活动线程没有进展，也没有当前持有锁。
+ * 还要注意，不定时的 tryLock() 方法不支持公平性设置。如果锁可用，即使其他线程正在等待，它也会成功。
  *
  * <p>It is recommended practice to <em>always</em> immediately
  * follow a call to {@code lock} with a {@code try} block, most
