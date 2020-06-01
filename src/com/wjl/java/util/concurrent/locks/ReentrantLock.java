@@ -107,13 +107,18 @@ import java.util.Collection;
  * methods for inspecting the state of the lock.  Some of these
  * methods are only useful for instrumentation and monitoring.
  *
+ * 除了实现 Lock 接口外，该类还定义了许多 public 和 protected 方法来检查锁的状态。
+ * 其中一些方法仅用于检测和监视。
+ *
  * <p>Serialization of this class behaves in the same way as built-in
  * locks: a deserialized lock is in the unlocked state, regardless of
  * its state when serialized.
+ * 这个类的序列化与内置锁的行为相同：反序列化锁处于未锁定状态，无论它在序列化时的状态如何。
  *
  * <p>This lock supports a maximum of 2147483647 recursive locks by
  * the same thread. Attempts to exceed this limit result in
  * {@link Error} throws from locking methods.
+ * 此锁最多支持同一线程的2147483647个递归锁。
  *
  * @since 1.5
  * @author Doug Lea
@@ -121,6 +126,7 @@ import java.util.Collection;
 public class ReentrantLock implements Lock, java.io.Serializable {
     private static final long serialVersionUID = 7373984872572414699L;
     /** Synchronizer providing all implementation mechanics */
+    /** 提供所有实现机制的同步器 */
     private final Sync sync;
 
     /**
