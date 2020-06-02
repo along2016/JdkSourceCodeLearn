@@ -55,6 +55,14 @@ import sun.misc.Unsafe;
  * #setState} and {@link #compareAndSetState} is tracked with respect
  * to synchronization.
  *
+ * 提供了一个基于 FIFO 队列，可以用于构建锁或者其他相关同步装置的基础框架。
+ * 该同步器（以下简称同步器）利用了一个 int 来表示状态，期望它能够成为实现大部分同步需求的基础。
+ * 使用的方法是继承，子类通过继承同步器并需要实现它的方法来管理其状态，管理的方式就是通过类似 acquire 和 release 的方式来操纵状态。
+ * 然而多线程环境中对状态的操纵必须确保原子性，因此子类对于状态的把握，需要使用这个同步器提供的以下三个方法对状态进行操作：
+ * java.util.concurrent.locks.AbstractQueuedSynchronizer.getState()
+ * java.util.concurrent.locks.AbstractQueuedSynchronizer.setState(int)
+ * java.util.concurrent.locks.AbstractQueuedSynchronizer.compareAndSetState(int, int)
+ *
  * <p>Subclasses should be defined as non-public internal helper
  * classes that are used to implement the synchronization properties
  * of their enclosing class.  Class
@@ -63,6 +71,10 @@ import sun.misc.Unsafe;
  * {@link #acquireInterruptibly} that can be invoked as
  * appropriate by concrete locks and related synchronizers to
  * implement their public methods.
+ *
+ * 子类应该定义为非公共的内部帮助类，用于实现其封闭类的同步属性。
+ * AbstractQueuedSynchronizer 类不会实现任何同步接口。
+ * 相反，它定义了 acquireInterruptibly() 等方法，这些方法可以被具体的锁和相关的同步器适当地调用来实现它们的公共方法。
  *
  * <p>This class supports either or both a default <em>exclusive</em>
  * mode and a <em>shared</em> mode. When acquired in exclusive mode,
@@ -77,6 +89,12 @@ import sun.misc.Unsafe;
  * {@link ReadWriteLock}. Subclasses that support only exclusive or
  * only shared modes need not define the methods supporting the unused mode.
  *
+ * 该同步器即可以作为排他模式也可以作为共享模式，当它被定义为一个排他模式时，其他线程对其的获取就被阻止，而共享模式对于多个线程获取都可以成功。
+ * 除了在机制意义上的差异之外，当共享模式获取成功时，下一个等待的线程(如果存在)也必须确定它是否也可以获取。
+ * 在不同模式下等待的线程共享相同的 FIFO 队列。
+ * 通常，实现子类只支持其中一种模式，但是这两种模式都可以发挥作用，例如在 ReadWriteLock 中。
+ * 只支持独占模式或只支持共享模式的子类不需要定义支持未使用模式的方法。
+ *
  * <p>This class defines a nested {@link ConditionObject} class that
  * can be used as a {@link Condition} implementation by subclasses
  * supporting exclusive mode for which method {@link
@@ -89,6 +107,7 @@ import sun.misc.Unsafe;
  * condition, so if this constraint cannot be met, do not use it.  The
  * behavior of {@link ConditionObject} depends of course on the
  * semantics of its synchronizer implementation.
+ *
  *
  * <p>This class provides inspection, instrumentation, and monitoring
  * methods for the internal queue, as well as similar methods for
