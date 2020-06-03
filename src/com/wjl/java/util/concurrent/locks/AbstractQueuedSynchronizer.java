@@ -507,6 +507,8 @@ public abstract class AbstractQueuedSynchronizer
         /**
          * The thread that enqueued this node.  Initialized on
          * construction and nulled out after use.
+         *
+         * 将此节点加入队列的线程。
          */
         volatile Thread thread;
 
