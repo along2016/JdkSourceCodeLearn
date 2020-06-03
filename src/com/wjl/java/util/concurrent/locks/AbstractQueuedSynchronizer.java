@@ -405,17 +405,22 @@ public abstract class AbstractQueuedSynchronizer
         /** waitStatus value to indicate thread has cancelled */
         static final int CANCELLED =  1;
         /** waitStatus value to indicate successor's thread needs unparking */
+        /** 等待状态值，指示后续线程需要退出 */
         static final int SIGNAL    = -1;
         /** waitStatus value to indicate thread is waiting on condition */
+        /** 等待状态值，指示线程处于等待状态 */
         static final int CONDITION = -2;
         /**
          * waitStatus value to indicate the next acquireShared should
          * unconditionally propagate
          */
+        /**
+         * 等待状态值指示下一个被默认对象应该无条件传播
+         */
         static final int PROPAGATE = -3;
 
         /**
-         * Status field, taking on only the values:
+         * Status field, taking on（接受） only the values:
          *   SIGNAL:     The successor of this node is (or will soon be)
          *               blocked (via park), so the current node must
          *               unpark its successor when it releases or
@@ -423,20 +428,35 @@ public abstract class AbstractQueuedSynchronizer
          *               first indicate they need a signal,
          *               then retry the atomic acquire, and then,
          *               on failure, block.
+         *
+         *               此节点的后继节点被（或将很快被）阻塞（通过park），因此当前节点在释放或取消时必须取消其后继节点。
+         *               为了避免争用，获取方法必须首先表明它们需要一个信号，然后重试原子获取，如果失败，则阻塞。
+         *
          *   CANCELLED:  This node is cancelled due to timeout or interrupt.
          *               Nodes never leave this state. In particular,
          *               a thread with cancelled node never again blocks.
+         *
+         *               这个节点由于超时或者中断会被取消。节点永远不会离开这个状态。
+         *               特别是，具有已取消节点的线程将不再阻塞。
+         *
          *   CONDITION:  This node is currently on a condition queue.
          *               It will not be used as a sync queue node
          *               until transferred, at which time the status
          *               will be set to 0. (Use of this value here has
          *               nothing to do with the other uses of the
          *               field, but simplifies mechanics.)
+         *
+         *               此节点当前位于条件队列上。在传输之前，它不会被用作同步队列节点，此时状态将被设置为0。
+         *               （这里这个值的使用与字段的其他用途无关，而是简化了机制。）
+         *
          *   PROPAGATE:  A releaseShared should be propagated to other
          *               nodes. This is set (for head node only) in
          *               doReleaseShared to ensure propagation
          *               continues, even if other operations have
          *               since intervened.
+         *
+         *               一个 releaseShared 节点应该被传播到其他节点。
+         *
          *   0:          None of the above
          *
          * The values are arranged numerically to simplify use.
@@ -444,9 +464,15 @@ public abstract class AbstractQueuedSynchronizer
          * signal. So, most code doesn't need to check for particular
          * values, just for sign.
          *
+         * 这些值以数字形式排列以简化使用。非负值表示节点不需要发出信号。
+         * 因此，大多数代码不需要检查特定的值，只需要检查符号。
+         *
          * The field is initialized to 0 for normal sync nodes, and
          * CONDITION for condition nodes.  It is modified using CAS
          * (or when possible, unconditional volatile writes).
+         *
+         * 对于正常的同步节点，字段初始化为0，对于条件节点，字段初始化为CONDITION。
+         * 它使用 CAS 进行修改（或者在可能的情况下，无条件 volatile 写入）。
          */
         volatile int waitStatus;
 
@@ -1836,6 +1862,8 @@ public abstract class AbstractQueuedSynchronizer
      * AbstractQueuedSynchronizer} serving as the basis of a {@link
      * Lock} implementation.
      *
+     * AbstractQueuedSynchronizer 的 Condition 实现，作为 Lock 实现的基础。
+     *
      * <p>Method documentation for this class describes mechanics,
      * not behavioral specifications from the point of view of Lock
      * and Condition users. Exported versions of this class will in
@@ -1843,8 +1871,13 @@ public abstract class AbstractQueuedSynchronizer
      * condition semantics that rely on those of the associated
      * {@code AbstractQueuedSynchronizer}.
      *
+     * 从 Lock 和 Condition 用户的角度来看，该类的方法文档描述的是机制，而不是行为规范。
+     * 该类的导出版本通常需要附带描述条件语义的文档，这些语义依赖于关联的 AbstractQueuedSynchronizer。
+     *
      * <p>This class is Serializable, but all fields are transient,
      * so deserialized conditions have no waiters.
+     *
+     * 这个类是可序列化的，但是所有字段都是 transient 的，所以反序列化的条件没有等待者。
      */
     public class ConditionObject implements Condition, java.io.Serializable {
         private static final long serialVersionUID = 1173984872572414699L;
