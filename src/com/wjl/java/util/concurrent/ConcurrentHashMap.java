@@ -84,8 +84,10 @@ import java.util.stream.Stream;
  * interoperable with {@code Hashtable} in programs that rely on its
  * thread safety but not on its synchronization details.
  *
- * <p>Retrieval operations (including {@code get}) generally do not
- * block, so may overlap with update operations (including {@code put}
+ * 在依赖于线程安全而不是同步细节的程序中，这个类与{@code Hashtable}完全互操作。
+ *
+ * <p>Retrieval operations（检索操作） (including {@code get}) generally do not
+ * block（阻塞）, so may overlap with（与 ... 操作重叠） update operations (including {@code put}
  * and {@code remove}). Retrievals reflect the results of the most
  * recently <em>completed</em> update operations holding upon their
  * onset. (More formally, an update operation for a given key bears a
@@ -770,6 +772,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
      * The array of bins. Lazily initialized upon first insertion.
      * Size is always a power of two. Accessed directly by iterators.
      */
+    // 数组用volatile修饰主要是保证在数组扩容的时候保证可见性
     transient volatile Node<K,V>[] table;
 
     /**
@@ -931,18 +934,24 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
      *
      * @throws NullPointerException if the specified key is null
      */
+    // 源码中没有一处加了锁
     public V get(Object key) {
         Node<K,V>[] tab; Node<K,V> e, p; int n, eh; K ek;
-        int h = spread(key.hashCode());
+        int h = spread(key.hashCode()); // 计算hash
         if ((tab = table) != null && (n = tab.length) > 0 &&
-            (e = tabAt(tab, (n - 1) & h)) != null) {
-            if ((eh = e.hash) == h) {
+            (e = tabAt(tab, (n - 1) & h)) != null) { // 读取首节点的Node元素
+            if ((eh = e.hash) == h) { // 如果该节点就是首节点就返回
                 if ((ek = e.key) == key || (ek != null && key.equals(ek)))
                     return e.val;
             }
+            // hash 值为负值表示正在扩容，这个时候查的是 ForwardingNode 的 find 方法来定位到 nextTable 来
+            // eh=-1，说明该节点是一个 ForwardingNode，正在迁移，此时调用 ForwardingNode 的 find 方法去 nextTable 里找。
+            // eh=-2，说明该节点是一个 TreeBin，此时调用 TreeBin 的 find 方法遍历红黑树，由于红黑树有可能正在旋转变色，
+            // 所以 find 里会有读写锁。
+            // eh>=0，说明该节点下挂的是一个链表，直接遍历该链表即可。
             else if (eh < 0)
                 return (p = e.find(h, key)) != null ? p.val : null;
-            while ((e = e.next) != null) {
+            while ((e = e.next) != null) { // 既不是首节点也不是 ForwardingNode，那就往下遍历
                 if (e.hash == h &&
                     ((ek = e.key) == key || (ek != null && key.equals(ek))))
                     return e.val;
